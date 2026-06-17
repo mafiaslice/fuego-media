@@ -1,0 +1,12 @@
+run = "pnpm install && pnpm dev"
+language = "nodejs"
+entrypoint = "apps/web/src/main.tsx"
+
+[nix]
+channel = "stable-22_11"
+
+[env]
+DATABASE_URL = "postgresql://user:password@localhost:5432/fuego_media"
+
+[deployment]
+run = ["sh", "-c", "pnpm build && pnpm --filter api start"]

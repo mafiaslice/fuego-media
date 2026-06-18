@@ -1,7 +1,31 @@
 import { useEffect, useRef } from "react";
 
-const BRANDS = [
-  "Meridian","Aurora","NorthGov","Pulse","Lumen","Vantage","Field & Co.","Orbit","Maison",
+const LOGOS = [
+  { file: "0. Meristem.png",               alt: "Meristem" },
+  { file: "1. Coca-Cola.png",               alt: "Coca-Cola" },
+  { file: "2. Solana.png",                  alt: "Solana" },
+  { file: "3. Sterling Bank.png",           alt: "Sterling Bank" },
+  { file: "4. Lagos State Government.png",  alt: "Lagos State Government" },
+  { file: "05. The Alternative Bank.png",   alt: "The Alternative Bank" },
+  { file: "6. Glo.png",                     alt: "Glo" },
+  { file: "7. Nivea.png",                   alt: "Nivea" },
+  { file: "9. Credit Direct.png",           alt: "Credit Direct" },
+  { file: "10. Brass Banking.png",          alt: "Brass Banking" },
+  { file: "11. Woodcore.png",               alt: "Woodcore" },
+  { file: "12. ArtX.png",                   alt: "ArtX" },
+  { file: "13. Hybrid Motors Nigeria.png",  alt: "Hybrid Motors Nigeria" },
+  { file: "14. Palton Morgan.png",          alt: "Palton Morgan" },
+  { file: "15. ANAP Jets.png",              alt: "ANAP Jets" },
+  { file: "16. Premia Business Network.png",alt: "Premia Business Network" },
+  { file: "17. IVS Japan.png",              alt: "IVS Japan" },
+  { file: "18. Tech Circle NG.png",         alt: "Tech Circle NG" },
+  { file: "19. EarniPay.png",               alt: "EarniPay" },
+  { file: "20. Ibom Innovation.png",        alt: "Ibom Innovation" },
+  { file: "21. Value Hut.png",              alt: "Value Hut" },
+  { file: "22. 500 Chow.png",               alt: "500 Chow" },
+  { file: "23. Bits Music.png",             alt: "Bits Music" },
+  { file: "24. DUNE.png",                   alt: "DUNE" },
+  { file: "25. Jason Porsche.png",          alt: "Jason Porsche" },
 ];
 
 export default function LogoStrip() {
@@ -34,7 +58,7 @@ export default function LogoStrip() {
     return () => { running = false; window.removeEventListener("resize", measure); };
   }, []);
 
-  const cards = [...BRANDS, ...BRANDS];
+  const cards = [...LOGOS, ...LOGOS];
 
   return (
     <section style={{
@@ -59,19 +83,28 @@ export default function LogoStrip() {
           display: "flex", gap: "clamp(18px,2.2vw,34px)",
           width: "max-content", willChange: "transform", padding: "0 17px",
         }}>
-          {cards.map((name, i) => (
+          {cards.map((logo, i) => (
             <div key={i} style={{
               flex: "0 0 auto",
-              width: "clamp(160px,18vw,212px)",
-              height: "clamp(78px,9vw,108px)",
-              border: "1px solid rgba(231,225,210,.22)",
+              width: "clamp(140px,16vw,196px)",
+              height: "clamp(72px,8vw,100px)",
+              border: "1px solid rgba(231,225,210,.14)",
               borderRadius: 3,
               display: "flex", alignItems: "center", justifyContent: "center",
               background: "rgba(231,225,210,.03)",
+              padding: "clamp(12px,1.4vw,20px) clamp(14px,1.6vw,24px)",
             }}>
-              <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.4vw,28px)", letterSpacing: ".04em", color: "rgba(231,225,210,.7)" }}>
-                {name}
-              </span>
+              <img
+                src={`/logos/${encodeURIComponent(logo.file)}`}
+                alt={logo.alt}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                  opacity: 0.72,
+                  filter: "brightness(0) invert(1)",
+                }}
+              />
             </div>
           ))}
         </div>

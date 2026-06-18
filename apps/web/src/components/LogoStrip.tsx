@@ -101,8 +101,7 @@ export default function LogoStrip() {
                   maxWidth: "100%",
                   maxHeight: "100%",
                   objectFit: "contain",
-                  opacity: 0.72,
-                  filter: "brightness(0) invert(1)",
+                  opacity: 1,
                 }}
               />
             </div>

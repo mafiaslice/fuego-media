@@ -1,74 +1,81 @@
-const CLIENTS = [
-  "CLIENT 01",
-  "CLIENT 02",
-  "CLIENT 03",
-  "CLIENT 04",
-  "CLIENT 05",
-  "CLIENT 06",
-  "CLIENT 07",
-  "CLIENT 08",
+import { useEffect, useRef } from "react";
+
+const BRANDS = [
+  "Meridian","Aurora","NorthGov","Pulse","Lumen","Vantage","Field & Co.","Orbit","Maison",
 ];
 
 export default function LogoStrip() {
-  // Duplicate for seamless loop
-  const items = [...CLIENTS, ...CLIENTS];
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    let offset = 0;
+    let running = true;
+    let half = 0;
+
+    const measure = () => { half = track.scrollWidth / 2; };
+    measure();
+
+    const step = () => {
+      if (!running) return;
+      if (half === 0) measure();
+      offset -= 0.32;
+      if (half > 0) {
+        while (offset <= -half) offset += half;
+        while (offset > 0) offset -= half;
+      }
+      track.style.transform = `translate3d(${offset}px,0,0)`;
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+
+    window.addEventListener("resize", measure);
+    return () => { running = false; window.removeEventListener("resize", measure); };
+  }, []);
+
+  const cards = [...BRANDS, ...BRANDS];
 
   return (
-    <div
-      style={{
-        background: "var(--bone)",
-        overflow: "hidden",
-        padding: "1.2rem 0",
-        borderTop: "1px solid rgba(22,4,7,0.15)",
-        borderBottom: "1px solid rgba(22,4,7,0.15)",
-      }}
-    >
-      <style>{`
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .logo-track {
-          display: flex;
-          animation: scrollLeft 20s linear infinite;
-          width: max-content;
-        }
-        .logo-track:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
-      <div className="logo-track">
-        {items.map((client, i) => (
-          <div
-            key={i}
-            style={{
-              padding: "0 3.5rem",
-              fontSize: "0.65rem",
-              fontWeight: 700,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "var(--maroon)",
-              opacity: 0.5,
-              whiteSpace: "nowrap",
-              display: "flex",
-              alignItems: "center",
-              gap: "3.5rem",
-            }}
-          >
-            {client}
-            <span
-              style={{
-                width: "4px",
-                height: "4px",
-                borderRadius: "50%",
-                background: "var(--gold)",
-                display: "inline-block",
-                opacity: 0.6,
-              }}
-            />
-          </div>
-        ))}
+    <section style={{
+      background: "#520a18",
+      padding: "clamp(34px,5vw,56px) 0",
+      borderTop: "1px solid rgba(231,225,210,.1)",
+      borderBottom: "1px solid rgba(0,0,0,.3)",
+    }}>
+      <div style={{
+        textAlign: "center", fontSize: 12, letterSpacing: ".26em",
+        textTransform: "uppercase" as const,
+        color: "rgba(231,225,210,.62)", marginBottom: "clamp(26px,3.4vw,40px)",
+      }}>
+        Trusted by brands, broadcasters &amp; governments
       </div>
-    </div>
+      <div style={{
+        overflow: "hidden",
+        WebkitMaskImage: "linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)",
+        maskImage: "linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)",
+      }}>
+        <div ref={trackRef} style={{
+          display: "flex", gap: "clamp(18px,2.2vw,34px)",
+          width: "max-content", willChange: "transform", padding: "0 17px",
+        }}>
+          {cards.map((name, i) => (
+            <div key={i} style={{
+              flex: "0 0 auto",
+              width: "clamp(160px,18vw,212px)",
+              height: "clamp(78px,9vw,108px)",
+              border: "1px solid rgba(231,225,210,.22)",
+              borderRadius: 3,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(231,225,210,.03)",
+            }}>
+              <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.4vw,28px)", letterSpacing: ".04em", color: "rgba(231,225,210,.7)" }}>
+                {name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

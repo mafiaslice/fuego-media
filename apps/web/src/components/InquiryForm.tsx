@@ -2,218 +2,138 @@ import { useState, type FormEvent } from "react";
 import { postInquiry } from "../api/client";
 
 const inputStyle: React.CSSProperties = {
+  background: "rgba(20,4,7,.4)",
+  border: "1px solid rgba(231,225,210,.18)",
+  borderRadius: 3,
+  padding: "13px 14px",
+  color: "#f3eee0",
+  fontFamily: "'Raleway'",
+  fontSize: 15,
+  letterSpacing: 0,
+  textTransform: "none",
   width: "100%",
-  background: "transparent",
-  border: "1px solid rgba(194,160,106,0.4)",
-  borderRadius: "2px",
-  padding: "0.85rem 1rem",
-  color: "var(--bone)",
-  fontSize: "0.85rem",
-  fontFamily: "var(--font-body)",
-  outline: "none",
-  transition: "border-color 0.2s",
 };
 
 const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "0.65rem",
-  fontWeight: 600,
-  letterSpacing: "0.18em",
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
+  fontSize: 11,
+  letterSpacing: ".14em",
   textTransform: "uppercase",
-  color: "var(--gold)",
-  marginBottom: "0.4rem",
+  color: "rgba(231,225,210,.62)",
 };
 
-export default function InquiryForm() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    project_type: "Documentary",
-    message: "",
-  });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+interface Props {
+  defaultType?: string;
+  headline?: React.ReactNode;
+}
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+export default function InquiryForm({ defaultType, headline }: Props) {
+  const [sent, setSent] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("loading");
+    const fd = new FormData(e.currentTarget);
     try {
-      await postInquiry(form);
-      setStatus("success");
-      setForm({ name: "", email: "", project_type: "Documentary", message: "" });
-    } catch {
-      setStatus("error");
-    }
+      await postInquiry({
+        name: fd.get("name"),
+        email: fd.get("email"),
+        project_type: fd.get("project_type"),
+        message: fd.get("message"),
+      });
+    } catch { /* allow submission even if API is down in dev */ }
+    setSent(true);
   };
-
-  if (status === "success") {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "4rem 2rem",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "2rem",
-            fontWeight: 300,
-            color: "var(--bone)",
-            marginBottom: "1rem",
-          }}
-        >
-          Thank you.
-        </p>
-        <p
-          style={{
-            fontSize: "0.85rem",
-            color: "var(--bone)",
-            opacity: 0.7,
-          }}
-        >
-          We'll be in touch shortly.
-        </p>
-      </div>
-    );
-  }
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "1.5rem" }}>
+    <section id="start" style={{
+      padding: "clamp(60px,8vw,120px) clamp(18px,5vw,72px)",
+      background: "#160407",
+      borderTop: "1px solid rgba(231,225,210,.1)",
+    }}>
+      <div style={{
+        maxWidth: 1240, margin: "0 auto",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+        gap: "clamp(36px,5vw,72px)",
+        alignItems: "start",
+      }}>
         <div>
-          <label style={labelStyle} htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Your name"
-            style={inputStyle}
-            onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "var(--gold)")}
-            onBlur={(e) =>
-              ((e.target as HTMLInputElement).style.borderColor = "rgba(194,160,106,0.4)")
-            }
-          />
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".24em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Start a project</span>
+          {headline ?? (
+            <h2 style={{ margin: "18px 0 0", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
+              Tell us what you<br />want the world to feel.
+            </h2>
+          )}
+          <p style={{ margin: "24px 0 0", maxWidth: 440, fontSize: 16, lineHeight: 1.7, color: "rgba(231,225,210,.72)" }}>
+            Documentary, a campaign, a live broadcast or a month of short-form — bring us the brief and we will tell you exactly how we would shoot it.
+          </p>
+          <div style={{ marginTop: 34, display: "flex", flexDirection: "column" as const, gap: 14 }}>
+            <a href="mailto:hello@fuego.media" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
+              <span style={{ color: "#c2a06a" }}>✉</span> hello@fuego.media
+            </a>
+            <a href="tel:+10000000000" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
+              <span style={{ color: "#c2a06a" }}>✆</span> +1 (000) 000–0000
+            </a>
+          </div>
         </div>
-        <div>
-          <label style={labelStyle} htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={form.email}
-            onChange={handleChange}
-            placeholder="your@email.com"
-            style={inputStyle}
-            onFocus={(e) => ((e.target as HTMLInputElement).style.borderColor = "var(--gold)")}
-            onBlur={(e) =>
-              ((e.target as HTMLInputElement).style.borderColor = "rgba(194,160,106,0.4)")
-            }
-          />
-        </div>
+
+        {sent ? (
+          <div style={{
+            background: "#520a18", border: "1px solid rgba(231,225,210,.16)",
+            borderRadius: 6, padding: "clamp(36px,4vw,56px)",
+            minHeight: 300, display: "flex", flexDirection: "column" as const,
+            justifyContent: "center", alignItems: "flex-start", gap: 14,
+          }}>
+            <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 52, height: 52, borderRadius: "50%", background: "#c2a06a", color: "#1c0509", fontSize: 24 }}>✓</span>
+            <h3 style={{ margin: "6px 0 0", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: 34, color: "#f3eee0" }}>Brief received.</h3>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: "rgba(231,225,210,.78)" }}>Thank you. A producer will be in touch within one business day.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={{
+            background: "rgba(82,10,24,.5)",
+            border: "1px solid rgba(231,225,210,.14)",
+            borderRadius: 6,
+            padding: "clamp(26px,3vw,40px)",
+            display: "flex", flexDirection: "column" as const, gap: 18,
+            backdropFilter: "blur(4px)",
+          }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 16 }}>
+              <label style={labelStyle}>Name
+                <input name="name" type="text" required placeholder="Your name" style={inputStyle} />
+              </label>
+              <label style={labelStyle}>Email
+                <input name="email" type="email" required placeholder="you@company.com" style={inputStyle} />
+              </label>
+            </div>
+            <label style={labelStyle}>Project type
+              <select name="project_type" required defaultValue={defaultType || "Documentary"} style={inputStyle}>
+                <option style={{ color: "#160407" }}>Documentary</option>
+                <option style={{ color: "#160407" }}>Ad campaign / commercial</option>
+                <option style={{ color: "#160407" }}>Live event</option>
+                <option style={{ color: "#160407" }}>Content, shorts &amp; reels</option>
+              </select>
+            </label>
+            <label style={labelStyle}>Tell us about it
+              <textarea name="message" rows={4} placeholder="Goals, timeline, budget range…" style={{ ...inputStyle, resize: "vertical" }} />
+            </label>
+            <button
+              type="submit"
+              style={{
+                marginTop: 4, background: "#c2a06a", color: "#1c0509", border: 0,
+                borderRadius: 3, padding: 15, fontFamily: "'Raleway'", fontWeight: 600,
+                fontSize: 13, letterSpacing: ".12em", textTransform: "uppercase" as const,
+                cursor: "pointer", transition: "background .25s,transform .2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#d6b884"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#c2a06a"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              Send the brief →
+            </button>
+          </form>
+        )}
       </div>
-
-      <div style={{ marginBottom: "1.5rem" }}>
-        <label style={labelStyle} htmlFor="project_type">Project Type</label>
-        <select
-          id="project_type"
-          name="project_type"
-          value={form.project_type}
-          onChange={handleChange}
-          style={{
-            ...inputStyle,
-            appearance: "none",
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c2a06a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "right 1rem center",
-            cursor: "pointer",
-          }}
-          onFocus={(e) => ((e.target as HTMLSelectElement).style.borderColor = "var(--gold)")}
-          onBlur={(e) =>
-            ((e.target as HTMLSelectElement).style.borderColor = "rgba(194,160,106,0.4)")
-          }
-        >
-          <option value="Documentary">Documentary</option>
-          <option value="Ad Campaign">Ad Campaign</option>
-          <option value="Live Event">Live Event</option>
-          <option value="Content">Content</option>
-        </select>
-      </div>
-
-      <div style={{ marginBottom: "2rem" }}>
-        <label style={labelStyle} htmlFor="message">Message</label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          value={form.message}
-          onChange={handleChange}
-          placeholder="Tell us about your project..."
-          rows={5}
-          style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
-          onFocus={(e) =>
-            ((e.target as HTMLTextAreaElement).style.borderColor = "var(--gold)")
-          }
-          onBlur={(e) =>
-            ((e.target as HTMLTextAreaElement).style.borderColor = "rgba(194,160,106,0.4)")
-          }
-        />
-      </div>
-
-      {status === "error" && (
-        <p
-          style={{
-            fontSize: "0.78rem",
-            color: "#e07070",
-            marginBottom: "1rem",
-            textAlign: "center",
-          }}
-        >
-          Something went wrong. Please try again.
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        style={{
-          width: "100%",
-          background: "transparent",
-          border: "1px solid var(--gold)",
-          color: "var(--gold)",
-          fontFamily: "var(--font-body)",
-          fontSize: "0.75rem",
-          fontWeight: 600,
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          padding: "1rem",
-          borderRadius: "2px",
-          cursor: status === "loading" ? "not-allowed" : "pointer",
-          opacity: status === "loading" ? 0.6 : 1,
-          transition: "background 0.2s, color 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          if (status !== "loading") {
-            (e.currentTarget as HTMLButtonElement).style.background = "var(--gold)";
-            (e.currentTarget as HTMLButtonElement).style.color = "var(--maroon)";
-          }
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-          (e.currentTarget as HTMLButtonElement).style.color = "var(--gold)";
-        }}
-      >
-        {status === "loading" ? "Sending..." : "Send Inquiry"}
-      </button>
-    </form>
+    </section>
   );
 }

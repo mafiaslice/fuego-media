@@ -6,5 +6,13 @@
     "build": "pnpm --filter './packages/*' build && pnpm --filter './apps/*' build",
     "db:generate": "pnpm --filter api db:generate",
     "db:migrate": "pnpm --filter api db:migrate"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "es5-ext",
+      "@swc/core",
+      "better-sqlite3"
+    ]
   }
 }

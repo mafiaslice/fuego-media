@@ -1,285 +1,226 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import type { Category, Project } from "@fuego/shared";
+import type { Category } from "@fuego/shared";
 import { fetchProjects } from "../api/client";
 import VideoLightbox from "../components/VideoLightbox";
+import InquiryForm from "../components/InquiryForm";
 
-interface ServicePageProps {
-  category: Category;
-}
+interface Props { category: Category; }
 
-const CATEGORY_META: Record<
-  Category,
-  {
-    label: string;
-    philosophy: string;
-    process: string;
-  }
-> = {
+const CONFIG: Record<Category, {
+  label: string; positioning: string;
+  reelLabel: string; statementA: string; statementB: string;
+  tileBg: string; defaultType: string; categoryLower: string;
+}> = {
   documentary: {
     label: "Documentary",
-    philosophy:
-      "For us, documentary is not observation — it is participation. We enter the worlds of our subjects with patience and without agenda, letting stories surface at their own pace. The camera becomes a quiet collaborator, present long enough to earn moments that cannot be staged. We believe the most powerful documentary work lives in contradiction: in the gap between what people say and what they feel, between the world as it is and the world as it could be. Every frame is a commitment to truth, and every edit a negotiation with complexity.",
-    process:
-      "Our documentary process begins months before a single frame is shot. Research, relationship-building, and pre-production are treated as creative acts in themselves. We work in small, nimble teams — typically a director, cinematographer, and sound recordist — to reduce footprint and maximize intimacy. In post, we collaborate closely with editors and composers who understand that documentary rhythm is earned, not manufactured. The result is work that respects its subjects, challenges its audience, and endures.",
+    categoryLower: "documentary",
+    positioning: "Long-form films, built to be trusted and made to outlast the news cycle. We embed, we listen, and we shoot until the truth shows up.",
+    reelLabel: "Documentary reel — 2026",
+    statementA: "Documentary is where we earn our reputation. A subject lets you into their life once — our job is to be worth that trust and to hand back something honest, not flattering.",
+    statementB: "Small crews, long lead times, real access. We research before we roll, cut for story over spectacle, and finish with a colour and sound pass that respects the room it was shot in.",
+    tileBg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)",
+    defaultType: "Documentary",
   },
   commercial: {
-    label: "Ad Campaigns & Commercials",
-    philosophy:
-      "We believe commercial work is not lesser work. The constraint of a 30-second frame, the demand of a brand brief, the pressure of a launch date — these are not obstacles. They are the conditions under which we discover what we're truly capable of. Great commercial filmmaking is an act of translation: taking a brand's values and a human truth and finding the image that holds both at once. We bring the same visual rigor and narrative instinct to a product spot that we bring to a feature documentary.",
-    process:
-      "From concept through delivery, we run commercial productions with the efficiency of a seasoned crew and the ambition of a boutique studio. Pre-production begins with a deep immersion in the brand: its history, its audience, its aspiration. We develop treatments that push beyond the brief while honoring its intent. On set, we work fast without sacrificing craft. In color and sound, we finish to broadcast standard. Deliverables arrive on time, in every format required.",
+    label: "Commercials",
+    categoryLower: "commercial",
+    positioning: "Brand films and spots, from strategy and boards through to final grade. Every second earns its place.",
+    reelLabel: "Commercial reel — 2026",
+    statementA: "A great spot starts before the camera rolls. We work from the brief, not the storyboard, because the idea is what survives the edit.",
+    statementB: "Director, DP and editor in the same room from day one. We move fast without cutting corners, and deliver every version your media plan needs.",
+    tileBg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)",
+    defaultType: "Ad campaign / commercial",
   },
   live: {
     label: "Live Events",
-    philosophy:
-      "Live is the one format that cannot be undone. There is no second take, no reshooting the cutaway, no fixing it in post. This irreversibility is what makes live event filmmaking so clarifying. You must be present, prepared, and willing to make decisions in real time that you will live with forever. We love that. Live events reveal a team's true character — and ours is one of calm, adaptability, and uncompromising attention to what is happening right now in front of the lens.",
-    process:
-      "Multi-camera live coverage requires coordination that most production companies underestimate. We begin with a thorough site visit and technical rider, mapping sight lines, power requirements, and communication protocols weeks in advance. On the day, our A/V director leads a team that has rehearsed every transition. We shoot for both the live cut and a post-produced archive cut, ensuring that what you have at day's end is both an immediate deliverable and a lasting artifact.",
+    categoryLower: "live event",
+    positioning: "Multi-camera coverage of concerts, ceremonies and keynotes — clean on the night, cut for archive and broadcast.",
+    reelLabel: "Live events reel — 2026",
+    statementA: "Live production has no second take. We plan obsessively so the crew can react instinctively when the moment happens.",
+    statementB: "Switching, comms and record infrastructure from thirty cameras down to two. We have done the arenas and the rooftops — the discipline is the same.",
+    tileBg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)",
+    defaultType: "Live event",
   },
   content: {
-    label: "Content Shorts & Reels",
-    philosophy:
-      "Short-form content is where the next generation of audiences lives, and we take it as seriously as any long-form work. The challenge is not brevity — it is density. Every second must earn its place. We apply the same compositional discipline, the same attention to light and sound, the same commitment to authentic performance that defines our larger productions. The result is content that does not feel like content: it feels like something you want to watch again.",
-    process:
-      "Content production at Fuego is built for velocity without sacrificing quality. We maintain a roster of agile one- and two-person crews trained for vertical formats, social platforms, and the unpredictable conditions of run-and-gun shooting. Turnaround windows are tight by design. We build scalable workflows — from shoot to edit to delivery — that allow brands and creators to publish consistently without losing the visual standard their audience expects.",
+    label: "Content, Shorts & Reels",
+    categoryLower: "content",
+    positioning: "Vertical shorts and reels, shot in batches and built native to the feed. Volume without sacrificing the frame.",
+    reelLabel: "Content reel — 2026",
+    statementA: "Short-form is not an afterthought. The same attention to light, composition and story — compressed into the time the algorithm gives you.",
+    statementB: "We shoot in batches, deliver on schedule, and version every asset for every placement. One shoot, a month of content.",
+    tileBg: "linear-gradient(165deg,#561124 0%,#350b16 55%,#160407 100%)",
+    defaultType: "Content, shorts & reels",
   },
 };
 
-function ProjectTile({
-  project,
-  onClick,
-}: {
-  project: Project;
-  onClick: () => void;
-}) {
-  const isVertical = project.aspect === "vertical";
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        position: "relative",
-        aspectRatio: isVertical ? "9 / 16" : "16 / 9",
-        borderRadius: "3px",
-        overflow: "hidden",
-        cursor: "pointer",
-        background: "rgba(255,255,255,0.05)",
-      }}
-      onMouseEnter={(e) => {
-        const overlay = (e.currentTarget as HTMLElement).querySelector(
-          ".sp-overlay"
-        ) as HTMLElement | null;
-        if (overlay) overlay.style.opacity = "1";
-      }}
-      onMouseLeave={(e) => {
-        const overlay = (e.currentTarget as HTMLElement).querySelector(
-          ".sp-overlay"
-        ) as HTMLElement | null;
-        if (overlay) overlay.style.opacity = "0";
-      }}
-    >
-      {project.thumbnail_url ? (
-        <img
-          src={project.thumbnail_url}
-          alt={project.title}
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-        />
-      ) : (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            background: "linear-gradient(135deg, #1e0509 0%, #2d0a10 100%)",
-          }}
-        />
-      )}
-      <div
-        className="sp-overlay"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to top, rgba(22,4,7,0.9) 0%, rgba(22,4,7,0.2) 60%, transparent 100%)",
-          opacity: 0,
-          transition: "opacity 0.3s",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          padding: "1.2rem",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.05rem",
-            color: "var(--bone)",
-            marginBottom: "0.25rem",
-          }}
-        >
-          {project.title}
-        </p>
-        <p
-          style={{
-            fontSize: "0.65rem",
-            fontWeight: 500,
-            letterSpacing: "0.1em",
-            color: "var(--gold)",
-            textTransform: "uppercase",
-          }}
-        >
-          {project.client}
-        </p>
-      </div>
-    </div>
-  );
-}
+const PLACEHOLDER_TILES: Record<Category, { title: string; tag: string; dur: string }[]> = {
+  documentary: [
+    { title: "Tides of the Delta", tag: "Feature documentary", dur: "24:10" },
+    { title: "The Salt Road", tag: "Series — 3 parts", dur: "41:02" },
+    { title: "After the Harvest", tag: "Short documentary", dur: "18:30" },
+    { title: "Borderlands", tag: "Feature documentary", dur: "52:18" },
+    { title: "Mother Tongue", tag: "Short documentary", dur: "29:44" },
+    { title: "The Last Ferry", tag: "Branded doc", dur: "12:08" },
+    { title: "Granite", tag: "Feature documentary", dur: "37:21" },
+    { title: "Nightshift", tag: "Short documentary", dur: "22:55" },
+    { title: "The Quiet Coast", tag: "Series — 2 parts", dur: "33:40" },
+  ],
+  commercial: [
+    { title: "Velocity", tag: "Commercial", dur: "0:60" },
+    { title: "Lumen Skincare", tag: "Commercial", dur: "0:30" },
+    { title: "Aurora Bank", tag: "Brand film", dur: "1:20" },
+    { title: "Field & Co.", tag: "Commercial", dur: "0:45" },
+    { title: "Pulse Energy", tag: "Brand film", dur: "0:90" },
+    { title: "Maison No.5", tag: "Commercial", dur: "0:30" },
+    { title: "Drift Eyewear", tag: "Commercial", dur: "0:60" },
+    { title: "Terra Coffee", tag: "Brand film", dur: "0:50" },
+    { title: "Nova Watches", tag: "Commercial", dur: "0:60" },
+  ],
+  live: [
+    { title: "Independence Day Live", tag: "Live Event", dur: "3:12:00" },
+    { title: "Sound Garden Fest", tag: "Live Event", dur: "2:40:00" },
+    { title: "The Founders Summit", tag: "Live Event", dur: "58:00" },
+    { title: "Night Market", tag: "Live Event", dur: "1:22:00" },
+    { title: "Arena Opening", tag: "Live Event", dur: "46:30" },
+    { title: "Gala '25", tag: "Live Event", dur: "1:50:00" },
+    { title: "Marathon Live", tag: "Live Event", dur: "4:05:00" },
+    { title: "Launch Keynote", tag: "Live Event", dur: "38:12" },
+    { title: "City Broadcast", tag: "Live Event", dur: "2:10:00" },
+  ],
+  content: [
+    { title: "Behind the Lens", tag: "Short / Reel", dur: "0:45" },
+    { title: "60s of Lagos", tag: "Short / Reel", dur: "1:00" },
+    { title: "Shooting Velocity", tag: "Short / Reel", dur: "0:38" },
+    { title: "Studio Diaries", tag: "Short / Reel", dur: "0:52" },
+    { title: "Reel 014", tag: "Short / Reel", dur: "0:29" },
+    { title: "Sound On", tag: "Short / Reel", dur: "1:00" },
+    { title: "One Take", tag: "Short / Reel", dur: "0:41" },
+    { title: "Golden Hour", tag: "Short / Reel", dur: "0:55" },
+    { title: "Field Notes", tag: "Short / Reel", dur: "0:48" },
+  ],
+};
 
-export default function ServicePage({ category }: ServicePageProps) {
-  const meta = CATEGORY_META[category];
-  const { data = [], isLoading } = useQuery<Project[]>({
+export default function ServicePage({ category }: Props) {
+  const cfg = CONFIG[category];
+  const [lightbox, setLightbox] = useState<{ title: string; videoUrl?: string } | null>(null);
+
+  const { data: projects } = useQuery({
     queryKey: ["projects", category],
-    queryFn: () => fetchProjects(category) as Promise<Project[]>,
+    queryFn: () => fetchProjects(category),
   });
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const tiles = projects?.length
+    ? projects.map((p: { title: string; category: string; duration: string; thumbnail_url: string; video_url: string }) => ({
+        title: p.title, tag: cfg.label, dur: p.duration,
+        bg: cfg.tileBg, thumbnailUrl: p.thumbnail_url, videoUrl: p.video_url,
+      }))
+    : PLACEHOLDER_TILES[category].map(t => ({ ...t, bg: cfg.tileBg }));
 
   return (
-    <div style={{ background: "var(--maroon)", minHeight: "100vh" }}>
-      {/* Header */}
-      <div
-        style={{
-          padding: "8rem 2.5rem 5rem",
-          borderBottom: "1px solid rgba(194,160,106,0.15)",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.65rem",
-            fontWeight: 600,
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            marginBottom: "1rem",
-          }}
-        >
-          Fuego Media
-        </p>
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 8vw, 7rem)",
-            fontWeight: 300,
-            color: "var(--bone)",
-            lineHeight: 0.95,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          {meta.label}
-        </h1>
-      </div>
+    <div style={{ position: "relative", width: "100%", background: "#160407", minHeight: "100vh" }}>
 
-      {/* Project grid */}
-      <section style={{ padding: "4rem 2.5rem" }}>
-        {isLoading ? (
-          <p style={{ color: "var(--bone)", opacity: 0.4, fontSize: "0.85rem" }}>
-            Loading...
-          </p>
-        ) : data.length === 0 ? (
-          <p style={{ color: "var(--bone)", opacity: 0.4, fontSize: "0.85rem" }}>
-            No projects yet.
-          </p>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                category === "content"
-                  ? "repeat(auto-fill, minmax(220px, 1fr))"
-                  : "repeat(auto-fill, minmax(340px, 1fr))",
-              gap: "1rem",
-            }}
-          >
-            {data.map((project) => (
-              <ProjectTile
-                key={project.id}
-                project={project}
-                onClick={() => setSelectedProject(project)}
-              />
-            ))}
+      {/* Breadcrumb + header */}
+      <section style={{ padding: "clamp(120px,16vh,190px) clamp(18px,5vw,72px) clamp(40px,5vw,64px)", maxWidth: 1320, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 12, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", marginBottom: "clamp(22px,3vw,34px)" }}>
+          <Link to="/" style={{ color: "rgba(231,225,210,.5)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.color = "#c2a06a")} onMouseLeave={e => (e.currentTarget.style.color = "rgba(231,225,210,.5)")}>Fuego</Link>
+          <span style={{ opacity: .5 }}>/</span>
+          <span style={{ color: "#c2a06a" }}>{cfg.label}</span>
+        </div>
+        <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(54px,10vw,140px)", lineHeight: .9, letterSpacing: "-.015em", color: "#f3eee0" }}>{cfg.label}</h1>
+        <p style={{ margin: "clamp(20px,2.6vw,30px) 0 0", maxWidth: 680, fontSize: "clamp(17px,2vw,22px)", lineHeight: 1.5, color: "rgba(231,225,210,.74)", fontWeight: 300 }}>{cfg.positioning}</p>
+      </section>
+
+      {/* Showreel banner */}
+      <section style={{ padding: "0 clamp(18px,5vw,72px) clamp(40px,5vw,70px)", maxWidth: 1320, margin: "0 auto" }}>
+        <button
+          onClick={() => setLightbox({ title: cfg.reelLabel })}
+          style={{
+            position: "relative", width: "100%", aspectRatio: "21/8", minHeight: 240,
+            border: "1px solid rgba(231,225,210,.12)", borderRadius: 5, overflow: "hidden",
+            cursor: "pointer", padding: 0,
+            background: "radial-gradient(120% 140% at 70% 25%, #6e1626 0%, #3a0b16 48%, #150406 100%)",
+            transition: "filter .35s",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.filter = "brightness(1.06)")}
+          onMouseLeave={e => (e.currentTarget.style.filter = "none")}
+        >
+          <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)" }} />
+          <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,4,7,.25), rgba(20,4,7,.55))" }} />
+          <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, flexWrap: "wrap" as const, padding: "clamp(20px,3vw,34px)" }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "clamp(52px,5vw,66px)", height: "clamp(52px,5vw,66px)", borderRadius: "50%", background: "#c2a06a", flex: "0 0 auto" }}>
+                <span style={{ width: 0, height: 0, borderLeft: "18px solid #1c0509", borderTop: "12px solid transparent", borderBottom: "12px solid transparent", marginLeft: 5 }} />
+              </span>
+              <span style={{ textAlign: "left" as const }}>
+                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".18em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 4 }}>{cfg.reelLabel}</span>
+                <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(24px,3vw,38px)", lineHeight: 1, color: "#f3eee0" }}>Watch the reel</span>
+              </span>
+            </span>
+            <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.6)" }}>2:40</span>
+          </span>
+        </button>
+      </section>
+
+      {/* Statement blocks */}
+      <section style={{ padding: "clamp(40px,6vw,86px) clamp(18px,5vw,72px)", background: "#1f0609", borderTop: "1px solid rgba(231,225,210,.08)", borderBottom: "1px solid rgba(231,225,210,.08)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "clamp(34px,5vw,80px)" }}>
+          <div>
+            <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 18 }}>What this means to us</span>
+            <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementA}</p>
           </div>
-        )}
-      </section>
-
-      {/* Editorial copy */}
-      <section
-        style={{
-          padding: "5rem 2.5rem",
-          borderTop: "1px solid rgba(194,160,106,0.1)",
-          maxWidth: "1100px",
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "4rem",
-        }}
-      >
-        <div>
-          <p
-            style={{
-              fontSize: "0.65rem",
-              fontWeight: 600,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "var(--gold)",
-              marginBottom: "1.2rem",
-            }}
-          >
-            What this means to us
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "1.1rem",
-              fontWeight: 300,
-              color: "var(--bone)",
-              lineHeight: 1.75,
-              opacity: 0.85,
-            }}
-          >
-            {meta.philosophy}
-          </p>
-        </div>
-        <div>
-          <p
-            style={{
-              fontSize: "0.65rem",
-              fontWeight: 600,
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "var(--gold)",
-              marginBottom: "1.2rem",
-            }}
-          >
-            How we make it
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "1.1rem",
-              fontWeight: 300,
-              color: "var(--bone)",
-              lineHeight: 1.75,
-              opacity: 0.85,
-            }}
-          >
-            {meta.process}
-          </p>
+          <div>
+            <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 18 }}>How we make it</span>
+            <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementB}</p>
+          </div>
         </div>
       </section>
 
-      {selectedProject && (
-        <VideoLightbox
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
+      {/* Work grid */}
+      <section style={{ padding: "clamp(46px,6vw,90px) clamp(18px,5vw,72px)", maxWidth: 1400, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(26px,3vw,42px)" }}>
+          <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>Selected work</h2>
+          <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>{tiles.length} films</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,330px),1fr))", gap: "clamp(14px,1.6vw,26px)" }}>
+          {tiles.map((t, i) => (
+            <button
+              key={i}
+              onClick={() => setLightbox({ title: t.title, videoUrl: (t as { videoUrl?: string }).videoUrl })}
+              style={{
+                position: "relative", width: "100%", aspectRatio: "16/9",
+                border: "1px solid rgba(231,225,210,.1)", padding: 0, cursor: "pointer",
+                overflow: "hidden", borderRadius: 3, background: t.bg,
+                transition: "transform .4s ease, box-shadow .4s ease, filter .4s ease",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 22px 50px rgba(0,0,0,.45)"; e.currentTarget.style.filter = "brightness(1.07)"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.filter = "none"; }}
+            >
+              <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)" }} />
+              <span style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 50% 26%, transparent 38%, rgba(12,3,5,.62) 100%)" }} />
+              {(t as { thumbnailUrl?: string }).thumbnailUrl && <img src={(t as { thumbnailUrl?: string }).thumbnailUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+              <span style={{ position: "absolute", right: 14, top: 13, fontSize: 11, fontWeight: 600, letterSpacing: ".08em", color: "rgba(231,225,210,.78)", background: "rgba(20,4,7,.42)", padding: "4px 9px", borderRadius: 3, fontVariantNumeric: "tabular-nums" }}>{t.dur}</span>
+              <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 18px 16px", background: "linear-gradient(0deg, rgba(15,4,6,.82), transparent)" }}>
+                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
+                <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <InquiryForm
+        defaultType={cfg.defaultType}
+        headline={
+          <h2 style={{ margin: "18px 0 0", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
+            Have a {cfg.categoryLower}<br />in mind?
+          </h2>
+        }
+      />
+
+      {lightbox && (
+        <VideoLightbox title={lightbox.title} videoUrl={lightbox.videoUrl} onClose={() => setLightbox(null)} />
       )}
     </div>
   );

@@ -1,4 +1,5 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -8,13 +9,18 @@ import ForAgenciesPage from "./pages/ForAgenciesPage";
 import BtsArchivePage from "./pages/BtsArchivePage";
 import BtsDispatchPage from "./pages/BtsDispatchPage";
 
+function ScrollTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
+
 function Layout() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "relative", width: "100%" }}>
+      <ScrollTop />
       <Nav />
-      <main style={{ flex: 1 }}>
-        <Outlet />
-      </main>
+      <Outlet />
       <Footer />
     </div>
   );

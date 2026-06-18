@@ -1,269 +1,166 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-interface CarouselTile {
-  id: number;
+interface Slide {
   title: string;
   category: string;
-  thumbnail_url: string;
+  bg: string;
 }
 
-interface HeroCarouselProps {
-  tiles: CarouselTile[];
+interface Props {
+  slides: Slide[];
+  onPlay: (title: string) => void;
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  documentary: "Documentary",
-  commercial: "Ad Campaign",
-  live: "Live Event",
-  content: "Content",
-};
+export default function HeroCarousel({ slides, onPlay }: Props) {
+  const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState<"rest" | "play">("rest");
+  const paused = useRef(false);
+  const t1 = useRef<ReturnType<typeof setTimeout>>();
+  const t2 = useRef<ReturnType<typeof setTimeout>>();
 
-const PLACEHOLDER_GRADIENTS = [
-  "linear-gradient(135deg, #160407 0%, #2d0a10 50%, #1a0508 100%)",
-  "linear-gradient(135deg, #0d0203 0%, #160407 50%, #2a0810 100%)",
-  "linear-gradient(135deg, #1a0810 0%, #c2a06a22 50%, #160407 100%)",
-];
-
-export default function HeroCarousel({ tiles }: HeroCarouselProps) {
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const playTimer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const count = Math.min(tiles.length, 12);
-  const visibleTiles = tiles.slice(0, count);
-
-  const goTo = useCallback(
-    (index: number) => {
-      setCurrent((index + count) % count);
-      setPaused(true);
-      if (pauseTimer.current) clearTimeout(pauseTimer.current);
-      pauseTimer.current = setTimeout(() => setPaused(false), 3000);
-    },
-    [count]
-  );
-
-  const next = useCallback(() => goTo(current + 1), [current, goTo]);
-  const prev = useCallback(() => goTo(current - 1), [current, goTo]);
+  const schedule = useCallback(() => {
+    clearTimeout(t1.current); clearTimeout(t2.current);
+    if (paused.current) return;
+    t1.current = setTimeout(() => {
+      setPhase("play");
+      t2.current = setTimeout(() => {
+        setIdx(i => (i + 1) % slides.length);
+        setPhase("rest");
+        schedule();
+      }, 3400);
+    }, 2400);
+  }, [slides.length]);
 
   useEffect(() => {
-    if (count === 0) return;
-    if (paused) {
-      if (playTimer.current) clearInterval(playTimer.current);
-      return;
-    }
-    playTimer.current = setInterval(() => {
-      setCurrent((c) => (c + 1) % count);
-    }, 2500);
-    return () => {
-      if (playTimer.current) clearInterval(playTimer.current);
-    };
-  }, [paused, count]);
+    schedule();
+    return () => { clearTimeout(t1.current); clearTimeout(t2.current); };
+  }, [schedule]);
 
-  useEffect(() => {
-    return () => {
-      if (pauseTimer.current) clearTimeout(pauseTimer.current);
-      if (playTimer.current) clearInterval(playTimer.current);
-    };
-  }, []);
+  const goTo = (i: number) => {
+    clearTimeout(t1.current); clearTimeout(t2.current);
+    setIdx(i); setPhase("rest");
+    schedule();
+  };
 
-  if (count === 0) {
-    return (
-      <div
-        style={{
-          width: "100vw",
-          height: "85vh",
-          background: PLACEHOLDER_GRADIENTS[0],
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "3rem",
-            color: "var(--bone)",
-            opacity: 0.3,
-          }}
-        >
-          FUEGO MEDIA
-        </p>
-      </div>
-    );
-  }
-
-  const tile = visibleTiles[current];
+  const cur = slides[idx] ?? slides[0];
+  const counter = `${String(idx + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "85vh",
-        overflow: "hidden",
-        background: "var(--maroon)",
-      }}
+    <section
+      id="top"
+      onMouseEnter={() => { paused.current = true; clearTimeout(t1.current); clearTimeout(t2.current); }}
+      onMouseLeave={() => { paused.current = false; schedule(); }}
+      style={{ position: "relative", height: "100vh", minHeight: 600, width: "100%", overflow: "hidden", background: "#160407" }}
     >
-      {/* Slides */}
-      {visibleTiles.map((t, i) => (
-        <div
-          key={t.id}
-          style={{
-            position: "absolute",
-            inset: 0,
-            opacity: i === current ? 1 : 0,
-            transition: "opacity 0.8s ease-in-out",
-            backgroundImage: t.thumbnail_url
-              ? `url(${t.thumbnail_url})`
-              : PLACEHOLDER_GRADIENTS[i % PLACEHOLDER_GRADIENTS.length],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+      {slides.map((s, i) => (
+        <div key={i} style={{
+          position: "absolute", inset: 0,
+          opacity: i === idx ? 1 : 0,
+          zIndex: i === idx ? 2 : 1,
+          transition: "opacity 1.3s ease",
+          pointerEvents: "none",
+        }}>
+          <div style={{
+            position: "absolute", inset: 0,
+            background: s.bg,
+            transform: `scale(${i === idx && phase === "play" ? 1.09 : 1.0})`,
+            transition: "transform 6s ease-out",
+            willChange: "transform",
+          }} />
+          <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px)", mixBlendMode: "overlay" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,4,7,.36) 0%, rgba(20,4,7,0) 30%, rgba(20,4,7,.22) 62%, rgba(20,4,7,.92) 100%)" }} />
+        </div>
       ))}
 
-      {/* Dark overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to top, rgba(22,4,7,0.85) 0%, rgba(22,4,7,0.2) 60%, rgba(22,4,7,0.1) 100%)",
-        }}
-      />
+      {/* Bottom content */}
+      <div style={{
+        position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 20,
+        display: "flex", alignItems: "flex-end", justifyContent: "space-between",
+        gap: 28, flexWrap: "wrap" as const,
+        padding: "0 clamp(18px,5vw,72px) clamp(40px,6vh,72px)",
+      }}>
+        <div style={{ maxWidth: 760 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>{cur.category}</span>
+            <span style={{ width: 34, height: 1, background: "rgba(231,225,210,.4)" }} />
+            <span style={{ fontSize: 13, letterSpacing: ".12em", color: "rgba(231,225,210,.6)", fontVariantNumeric: "tabular-nums" }}>{counter}</span>
+          </div>
+          <h1 style={{
+            margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500,
+            fontSize: "clamp(46px,8.4vw,116px)", lineHeight: .94, letterSpacing: "-.01em",
+            color: "#f3eee0",
+          }}>
+            {cur.title}
+          </h1>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 30 }}>
+            <button
+              onClick={() => onPlay(cur.title)}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 13,
+                background: "rgba(231,225,210,.06)", border: "1px solid rgba(231,225,210,.5)",
+                color: "#e7e1d2", padding: "13px 24px 13px 18px", borderRadius: 40,
+                cursor: "pointer", fontFamily: "'Raleway'", fontSize: 13, fontWeight: 600,
+                letterSpacing: ".14em", textTransform: "uppercase" as const,
+                transition: "background .25s, border-color .25s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.14)"; e.currentTarget.style.borderColor = "#e7e1d2"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "rgba(231,225,210,.06)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.5)"; }}
+            >
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: "50%", background: "#c2a06a" }}>
+                <span style={{ width: 0, height: 0, borderLeft: "11px solid #1c0509", borderTop: "7px solid transparent", borderBottom: "7px solid transparent", marginLeft: 3 }} />
+              </span>
+              Play film
+            </button>
+          </div>
+        </div>
 
-      {/* Caption */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "5rem",
-          left: "3rem",
-          zIndex: 2,
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.65rem",
-            fontWeight: 600,
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            marginBottom: "0.5rem",
-          }}
-        >
-          {CATEGORY_LABELS[tile.category] ?? tile.category}
-        </p>
-        <h2
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(2rem, 5vw, 4rem)",
-            fontWeight: 300,
-            color: "var(--bone)",
-            lineHeight: 1.1,
-            maxWidth: "600px",
-          }}
-        >
-          {tile.title}
-        </h2>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <button
+            onClick={() => goTo((idx - 1 + slides.length) % slides.length)}
+            aria-label="Previous"
+            style={{ width: 50, height: 50, borderRadius: "50%", border: "1px solid rgba(231,225,210,.28)", background: "rgba(20,4,7,.3)", color: "#e7e1d2", cursor: "pointer", fontSize: 18, transition: "background .25s,border-color .25s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.12)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.6)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "rgba(20,4,7,.3)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.28)"; }}
+          >←</button>
+          <button
+            onClick={() => goTo((idx + 1) % slides.length)}
+            aria-label="Next"
+            style={{ width: 50, height: 50, borderRadius: "50%", border: "1px solid rgba(231,225,210,.28)", background: "rgba(20,4,7,.3)", color: "#e7e1d2", cursor: "pointer", fontSize: 18, transition: "background .25s,border-color .25s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.12)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.6)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "rgba(20,4,7,.3)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.28)"; }}
+          >→</button>
+        </div>
       </div>
 
-      {/* Navigation arrows */}
-      <button
-        onClick={prev}
-        aria-label="Previous"
-        style={{
-          position: "absolute",
-          left: "1.5rem",
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 3,
-          background: "rgba(22,4,7,0.5)",
-          border: "1px solid rgba(231,225,210,0.2)",
-          color: "var(--bone)",
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.1rem",
-          transition: "background 0.2s",
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLButtonElement).style.background =
-            "rgba(194,160,106,0.3)")
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLButtonElement).style.background =
-            "rgba(22,4,7,0.5)")
-        }
-      >
-        ‹
-      </button>
-      <button
-        onClick={next}
-        aria-label="Next"
-        style={{
-          position: "absolute",
-          right: "1.5rem",
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 3,
-          background: "rgba(22,4,7,0.5)",
-          border: "1px solid rgba(231,225,210,0.2)",
-          color: "var(--bone)",
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.1rem",
-          transition: "background 0.2s",
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLButtonElement).style.background =
-            "rgba(194,160,106,0.3)")
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLButtonElement).style.background =
-            "rgba(22,4,7,0.5)")
-        }
-      >
-        ›
-      </button>
-
-      {/* Dots */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "1.5rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 3,
-          display: "flex",
-          gap: "0.5rem",
-        }}
-      >
-        {visibleTiles.map((_, i) => (
+      {/* Tick marks */}
+      <div style={{
+        position: "absolute",
+        left: "clamp(18px,5vw,72px)", right: "clamp(18px,5vw,72px)",
+        bottom: 26, zIndex: 20, display: "flex", gap: 8,
+      }}>
+        {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
             style={{
-              width: i === current ? "24px" : "8px",
-              height: "8px",
-              borderRadius: "4px",
-              background: i === current ? "var(--gold)" : "rgba(231,225,210,0.3)",
-              border: "none",
-              padding: 0,
-              transition: "all 0.3s ease",
-              cursor: "pointer",
+              flex: "1 1 0", height: 3, border: 0, padding: 0, cursor: "pointer",
+              borderRadius: 2,
+              background: i === idx ? "#c2a06a" : "rgba(231,225,210,.22)",
+              transition: "background .4s",
             }}
           />
         ))}
       </div>
-    </div>
+
+      {/* Scroll hint */}
+      <div style={{
+        position: "absolute", left: "50%", bottom: 96, zIndex: 15,
+        animation: "fuegoFloat 2.8s ease-in-out infinite",
+        pointerEvents: "none",
+      }}>
+        <span style={{ fontSize: 10, letterSpacing: ".28em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.45)" }}>Scroll</span>
+      </div>
+    </section>
   );
 }

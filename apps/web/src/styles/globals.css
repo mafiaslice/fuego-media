@@ -1,21 +1,28 @@
-:root {
-  --maroon: #160407;
-  --bone: #e7e1d2;
-  --gold: #c2a06a;
-  --font-display: 'Cormorant Garamond', serif;
-  --font-body: 'Raleway', sans-serif;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 78px;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: #160407;
+  color: #e7e1d2;
+  font-family: 'Raleway', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-body {
-  background: var(--maroon);
-  color: var(--bone);
-  font-family: var(--font-body);
+::selection {
+  background: #c2a06a;
+  color: #160407;
 }
 
 a {
@@ -24,12 +31,20 @@ a {
 }
 
 button {
+  font-family: 'Raleway', system-ui, sans-serif;
   cursor: pointer;
-  font-family: var(--font-body);
 }
 
-input,
-select,
-textarea {
-  font-family: var(--font-body);
+input, select, textarea {
+  font-family: 'Raleway', system-ui, sans-serif;
+}
+
+@keyframes fuegoKenburns {
+  from { transform: scale(1.02) translateY(0); }
+  to { transform: scale(1.16) translateY(-2%); }
+}
+
+@keyframes fuegoFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
 }

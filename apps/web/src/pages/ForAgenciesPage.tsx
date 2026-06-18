@@ -1,203 +1,127 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import VideoLightbox from "../components/VideoLightbox";
 
-const VALUE_PROPS = [
-  {
-    title: "Discretion",
-    copy: "We understand that when you bring us in, it is your agency's name on the work. We operate with complete discretion — no social posts, no case studies, no portfolio credits without your explicit sign-off. Your client relationship is yours.",
-  },
-  {
-    title: "Scale",
-    copy: "Whether you need a two-person documentary crew for an intimate brand story or a full multi-camera production for a national campaign launch, we scale to the brief. Our network of collaborators means we can staff appropriately for any project size without the overhead of a full-time roster.",
-  },
-  {
-    title: "Craft",
-    copy: "Agency clients expect perfection, and they should. Every deliverable that leaves our facility has been through a rigorous quality control process. Color, sound, format, spec compliance — we do not cut corners, and we do not deliver work we would not put our own name on.",
-  },
+const SERVICES = [
+  { num: "01", title: "Line producing", body: "Budgets, schedules, permits, insurance and logistics — run tight, reported clearly." },
+  { num: "02", title: "Crew & kit", body: "Vetted directors, DPs and operators with camera, lighting and grip to match the spec." },
+  { num: "03", title: "Direction & DP", body: "A director and cinematographer who can take your boards and make them better on the day." },
+  { num: "04", title: "Live & multicam", body: "Switching, comms and record for events, broadcasts and streamed activations." },
+  { num: "05", title: "Post & finishing", body: "Edit, sound, colour and motion — delivered to every spec sheet you send us." },
+  { num: "06", title: "Versioning", body: "Cutdowns, aspect ratios, captions and localisation for every market and placement." },
 ];
 
 export default function ForAgenciesPage() {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
   return (
-    <div style={{ background: "var(--maroon)", minHeight: "100vh" }}>
-      {/* Hero */}
-      <div
-        style={{
-          padding: "8rem 2.5rem 5rem",
-          borderBottom: "1px solid rgba(194,160,106,0.15)",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.65rem",
-            fontWeight: 600,
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            marginBottom: "1rem",
-          }}
-        >
-          Agency Partners
-        </p>
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(2.5rem, 7vw, 6rem)",
-            fontWeight: 300,
-            color: "var(--bone)",
-            lineHeight: 1.0,
-            maxWidth: "800px",
-          }}
-        >
-          Your Production Arm
-        </h1>
-      </div>
+    <div style={{ position: "relative", width: "100%", background: "#160407", minHeight: "100vh" }}>
 
-      {/* Intro */}
-      <div style={{ padding: "5rem 2.5rem", maxWidth: "760px" }}>
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.25rem",
-            fontWeight: 300,
-            color: "var(--bone)",
-            lineHeight: 1.75,
-            marginBottom: "2rem",
-            opacity: 0.9,
-          }}
-        >
-          The best agencies know when to bring in specialists. We have built Fuego's
-          agency practice around a single principle: you should never have to explain us
-          to your client. We show up on brand, on brief, on budget, and on time. When
-          it works — and it always works — nobody needs to know we were there.
-        </p>
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.1rem",
-            fontWeight: 300,
-            color: "var(--bone)",
-            lineHeight: 1.8,
-            opacity: 0.72,
-          }}
-        >
-          We have served as the invisible production arm for boutique creative agencies,
-          global networks, and independent consultancies. Our experience spans broadcast
-          campaigns, digital-native content, live brand activations, and long-form
-          documentary commissions. In every case, the relationship with the end client
-          remains yours.
-        </p>
-      </div>
-
-      {/* Value props */}
-      <div
-        style={{
-          padding: "0 2.5rem 6rem",
-          maxWidth: "1100px",
-          margin: "0 auto",
-          borderTop: "1px solid rgba(194,160,106,0.1)",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.65rem",
-            fontWeight: 600,
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            padding: "3rem 0 2.5rem",
-          }}
-        >
-          Why Fuego
-        </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "3rem",
-          }}
-        >
-          {VALUE_PROPS.map((vp) => (
-            <div key={vp.title}>
-              <div
-                style={{
-                  width: "32px",
-                  height: "1px",
-                  background: "var(--gold)",
-                  marginBottom: "1.5rem",
-                  opacity: 0.6,
-                }}
-              />
-              <h3
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "1.6rem",
-                  fontWeight: 300,
-                  color: "var(--bone)",
-                  marginBottom: "1rem",
-                }}
-              >
-                {vp.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  lineHeight: 1.8,
-                  color: "var(--bone)",
-                  opacity: 0.68,
-                }}
-              >
-                {vp.copy}
-              </p>
-            </div>
-          ))}
+      {/* Header */}
+      <section style={{ padding: "clamp(120px,16vh,190px) clamp(18px,5vw,72px) clamp(40px,5vw,60px)", maxWidth: 1320, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 12, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", marginBottom: "clamp(22px,3vw,34px)" }}>
+          <Link to="/" style={{ color: "rgba(231,225,210,.5)", textDecoration: "none" }} onMouseEnter={e => (e.currentTarget.style.color = "#c2a06a")} onMouseLeave={e => (e.currentTarget.style.color = "rgba(231,225,210,.5)")}>Fuego</Link>
+          <span style={{ opacity: .5 }}>/</span>
+          <span style={{ color: "#c2a06a" }}>For Agencies</span>
         </div>
-      </div>
-
-      {/* CTA */}
-      <div
-        style={{
-          padding: "5rem 2.5rem",
-          textAlign: "center",
-          borderTop: "1px solid rgba(194,160,106,0.1)",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-            fontWeight: 300,
-            color: "var(--bone)",
-            marginBottom: "2rem",
-          }}
-        >
-          Let's talk about your next campaign.
+        <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(48px,8.4vw,118px)", lineHeight: .92, letterSpacing: "-.015em", color: "#f3eee0", maxWidth: "14ch" }}>
+          Your production arm.
+        </h1>
+        <p style={{ margin: "clamp(20px,2.6vw,30px) 0 0", maxWidth: 660, fontSize: "clamp(17px,2vw,22px)", lineHeight: 1.55, color: "rgba(231,225,210,.74)", fontWeight: 300 }}>
+          White-label or credited — whichever the brief needs. You hold the client and the idea; we deliver the production, on spec and on schedule.
         </p>
-        <Link
-          to="/#inquiry"
+      </section>
+
+      {/* Lead copy */}
+      <section style={{ padding: "clamp(36px,4vw,60px) clamp(18px,5vw,72px) clamp(50px,6vw,80px)", maxWidth: 1100, margin: "0 auto" }}>
+        <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(24px,3.4vw,42px)", lineHeight: 1.26, color: "#ece5d6" }}>
+          When a pitch lands and the timeline is already tight, agencies bring us in to own execution — from line-producing and crew to direction, post and delivery — so the work ships at the standard you sold.
+        </p>
+      </section>
+
+      {/* Services grid */}
+      <section style={{ padding: "clamp(46px,6vw,90px) clamp(18px,5vw,72px)", background: "#1f0609", borderTop: "1px solid rgba(231,225,210,.08)", borderBottom: "1px solid rgba(231,225,210,.08)" }}>
+        <div style={{ maxWidth: 1320, margin: "0 auto" }}>
+          <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: "clamp(26px,3vw,42px)" }}>As your production partner</span>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,280px),1fr))", gap: "clamp(20px,2.4vw,40px)" }}>
+            {SERVICES.map(s => (
+              <div key={s.num} style={{ borderTop: "1px solid rgba(231,225,210,.16)", paddingTop: 20 }}>
+                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(18px,1.8vw,22px)", color: "#c2a06a" }}>{s.num}</span>
+                <h3 style={{ margin: "10px 0 10px", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(23px,2.5vw,30px)", color: "#f3eee0" }}>{s.title}</h3>
+                <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "rgba(231,225,210,.64)" }}>{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Agency reel */}
+      <section style={{ padding: "clamp(50px,6vw,90px) clamp(18px,5vw,72px)", maxWidth: 1320, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(22px,2.6vw,34px)" }}>
+          <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>The agency reel</h2>
+          <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>Cut for partners · 1:45</span>
+        </div>
+        <button
+          onClick={() => setLightbox("Fuego — Agency Reel 2026")}
           style={{
-            display: "inline-block",
-            border: "1px solid var(--gold)",
-            color: "var(--gold)",
-            fontFamily: "var(--font-body)",
-            fontSize: "0.72rem",
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            padding: "0.9rem 2.5rem",
-            borderRadius: "2px",
-            transition: "background 0.2s, color 0.2s",
+            position: "relative", width: "100%", aspectRatio: "21/8", minHeight: 240,
+            border: "1px solid rgba(231,225,210,.12)", borderRadius: 5, overflow: "hidden",
+            cursor: "pointer", padding: 0,
+            background: "radial-gradient(120% 140% at 30% 25%, #6e1626 0%, #3a0b16 50%, #150406 100%)",
+            transition: "filter .35s",
           }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = "var(--gold)";
-            (e.currentTarget as HTMLAnchorElement).style.color = "var(--maroon)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-            (e.currentTarget as HTMLAnchorElement).style.color = "var(--gold)";
-          }}
+          onMouseEnter={e => (e.currentTarget.style.filter = "brightness(1.06)")}
+          onMouseLeave={e => (e.currentTarget.style.filter = "none")}
         >
-          Start a Conversation
-        </Link>
-      </div>
+          <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)" }} />
+          <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,4,7,.2), rgba(20,4,7,.5))" }} />
+          <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "clamp(60px,6vw,80px)", height: "clamp(60px,6vw,80px)", borderRadius: "50%", background: "#c2a06a" }}>
+              <span style={{ width: 0, height: 0, borderLeft: "22px solid #1c0509", borderTop: "14px solid transparent", borderBottom: "14px solid transparent", marginLeft: 6 }} />
+            </span>
+          </span>
+        </button>
+      </section>
+
+      {/* Bring us in */}
+      <section id="bring-us-in" style={{ padding: "clamp(56px,7vw,110px) clamp(18px,5vw,72px)", background: "#520a18", borderTop: "1px solid rgba(231,225,210,.1)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <h2 style={{ margin: "0 0 clamp(34px,4vw,56px)", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(34px,5.4vw,72px)", lineHeight: 1, color: "#f3eee0" }}>Bring us in</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "clamp(28px,3.5vw,56px)", marginBottom: "clamp(40px,5vw,64px)" }}>
+            {[
+              { n: "01", title: "Send the brief", body: "Deck, script or a paragraph. NDA on request, same day." },
+              { n: "02", title: "Scope & quote", body: "A treatment, crew plan and line-itemed budget within 48 hours." },
+              { n: "03", title: "We shoot, you ship", body: "Credited or white-label. You present the work as yours." },
+            ].map(p => (
+              <div key={p.n}>
+                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2vw,24px)", color: "#c2a06a" }}>{p.n}</span>
+                <h3 style={{ margin: "12px 0 8px", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(21px,2.2vw,26px)", color: "#f3eee0" }}>{p.title}</h3>
+                <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "rgba(231,225,210,.72)" }}>{p.body}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 16, alignItems: "center" }}>
+            <a
+              href="mailto:partners@fuego.media"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#c2a06a", color: "#1c0509", fontWeight: 600, fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase" as const, padding: "15px 26px", borderRadius: 2, textDecoration: "none", transition: "background .25s,transform .2s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#d6b884"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#c2a06a"; e.currentTarget.style.transform = "translateY(0)"; }}
+            >
+              partners@fuego.media
+            </a>
+            <Link
+              to="/#start"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, border: "1px solid rgba(231,225,210,.4)", color: "#e7e1d2", fontWeight: 600, fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase" as const, padding: "14px 24px", borderRadius: 2, textDecoration: "none", transition: "background .25s,border-color .25s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.1)"; e.currentTarget.style.borderColor = "#e7e1d2"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(231,225,210,.4)"; }}
+            >
+              Send a brief →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {lightbox && <VideoLightbox title={lightbox} onClose={() => setLightbox(null)} />}
     </div>
   );
 }

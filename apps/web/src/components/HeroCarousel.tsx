@@ -97,12 +97,12 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
       }}>
         <div style={{ maxWidth: 760 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>{cur.category}</span>
+            <span style={{ fontSize: 13, fontWeight: 400, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>{cur.category}</span>
             <span style={{ width: 34, height: 1, background: "rgba(231,225,210,.4)" }} />
             <span style={{ fontSize: 13, letterSpacing: ".12em", color: "rgba(231,225,210,.6)", fontVariantNumeric: "tabular-nums" }}>{counter}</span>
           </div>
           <h1 style={{
-            margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700,
+            margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 500,
             fontSize: "clamp(46px,8.4vw,116px)", lineHeight: .94, letterSpacing: "-.01em",
             color: "#f3eee0",
           }}>
@@ -115,7 +115,7 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
                 display: "inline-flex", alignItems: "center", gap: 13,
                 background: "rgba(231,225,210,.06)", border: "1px solid rgba(231,225,210,.5)",
                 color: "#e7e1d2", padding: "13px 24px 13px 18px", borderRadius: 40,
-                cursor: "pointer", fontFamily: "'Raleway'", fontSize: 13, fontWeight: 600,
+                cursor: "pointer", fontFamily: "'Raleway'", fontSize: 13, fontWeight: 400,
                 letterSpacing: ".14em", textTransform: "uppercase" as const,
                 transition: "background .25s, border-color .25s",
               }}

@@ -60,9 +60,9 @@ export default function InquiryForm({ defaultType, headline }: Props) {
         alignItems: "start",
       }}>
         <div>
-          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".24em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Start a project</span>
+          <span style={{ fontSize: 12, fontWeight: 400, letterSpacing: ".24em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Start a project</span>
           {headline ?? (
-            <h2 style={{ margin: "18px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
+            <h2 style={{ margin: "18px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
               Tell us what you<br />want the world to feel.
             </h2>
           )}
@@ -70,11 +70,11 @@ export default function InquiryForm({ defaultType, headline }: Props) {
             Documentary, a campaign, a live broadcast or a month of short-form — bring us the brief and we will tell you exactly how we would shoot it.
           </p>
           <div style={{ marginTop: 34, display: "flex", flexDirection: "column" as const, gap: 14 }}>
-            <a href="mailto:hello@fuego.media" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
-              <span style={{ color: "#c2a06a" }}>✉</span> hello@fuego.media
+            <a href="mailto:hello@onefuego.com" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
+              <span style={{ color: "#c2a06a" }}>✉</span> hello@onefuego.com
             </a>
-            <a href="tel:+10000000000" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
-              <span style={{ color: "#c2a06a" }}>✆</span> +1 (000) 000–0000
+            <a href="tel:+2349064678916" style={{ display: "inline-flex", alignItems: "center", gap: 12, fontSize: 15, color: "#e7e1d2", textDecoration: "none", letterSpacing: ".02em" }}>
+              <span style={{ color: "#c2a06a" }}>✆</span> +234 906 467 8916
             </a>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function InquiryForm({ defaultType, headline }: Props) {
             justifyContent: "center", alignItems: "flex-start", gap: 14,
           }}>
             <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 52, height: 52, borderRadius: "50%", background: "#c2a06a", color: "#1c0509", fontSize: 24 }}>✓</span>
-            <h3 style={{ margin: "6px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: 34, color: "#f3eee0" }}>Brief received.</h3>
+            <h3 style={{ margin: "6px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: 34, color: "#f3eee0" }}>Brief received.</h3>
             <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65, color: "rgba(231,225,210,.78)" }}>Thank you. A producer will be in touch within one business day.</p>
           </div>
         ) : (
@@ -122,7 +122,7 @@ export default function InquiryForm({ defaultType, headline }: Props) {
               type="submit"
               style={{
                 marginTop: 4, background: "#c2a06a", color: "#1c0509", border: 0,
-                borderRadius: 3, padding: 15, fontFamily: "'Raleway'", fontWeight: 600,
+                borderRadius: 3, padding: 15, fontFamily: "'Raleway'", fontWeight: 400,
                 fontSize: 13, letterSpacing: ".12em", textTransform: "uppercase" as const,
                 cursor: "pointer", transition: "background .25s,transform .2s",
               }}

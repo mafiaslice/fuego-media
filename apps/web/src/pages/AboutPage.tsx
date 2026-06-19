@@ -27,7 +27,7 @@ export default function AboutPage() {
           <span style={{ opacity: .5 }}>/</span>
           <span style={{ color: "#c2a06a" }}>About</span>
         </div>
-        <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(54px,10vw,140px)", lineHeight: .9, letterSpacing: "-.015em", color: "#f3eee0" }}>About Fuego</h1>
+        <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(54px,10vw,140px)", lineHeight: .9, letterSpacing: "-.015em", color: "#f3eee0" }}>About Fuego</h1>
       </section>
 
       {/* Lead statement */}
@@ -43,7 +43,7 @@ export default function AboutPage() {
       {/* What we do */}
       <section style={{ padding: "clamp(46px,6vw,90px) clamp(18px,5vw,72px)", background: "#1f0609", borderTop: "1px solid rgba(231,225,210,.08)", borderBottom: "1px solid rgba(231,225,210,.08)" }}>
         <div style={{ maxWidth: 1320, margin: "0 auto" }}>
-          <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: "clamp(26px,3vw,40px)" }}>What we do</span>
+          <span style={{ display: "inline-block", fontSize: 12, fontWeight: 400, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: "clamp(26px,3vw,40px)" }}>What we do</span>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "clamp(20px,2.5vw,40px)" }}>
             {[
               { label: "Documentary", to: "/documentary", desc: "Features, series and short docs. Access-led storytelling, cut for the long run." },
@@ -67,7 +67,7 @@ export default function AboutPage() {
 
       {/* Principles */}
       <section style={{ padding: "clamp(50px,7vw,100px) clamp(18px,5vw,72px)", maxWidth: 1180, margin: "0 auto" }}>
-        <h2 style={{ margin: "0 0 clamp(34px,4vw,56px)", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(32px,4.6vw,58px)", lineHeight: 1, color: "#f3eee0" }}>How we work</h2>
+        <h2 style={{ margin: "0 0 clamp(34px,4vw,56px)", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(32px,4.6vw,58px)", lineHeight: 1, color: "#f3eee0" }}>How we work</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "clamp(28px,3.5vw,56px)" }}>
           {[
             { n: "01", title: "Access before cameras", body: "We earn the room first. The best footage is the footage people forget is being shot." },
@@ -76,7 +76,7 @@ export default function AboutPage() {
           ].map(p => (
             <div key={p.n}>
               <span style={{ fontFamily: "'Raleway',sans-serif", fontSize: "clamp(20px,2vw,24px)", color: "#c2a06a" }}>{p.n}</span>
-              <h3 style={{ margin: "12px 0 10px", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(22px,2.4vw,28px)", color: "#f3eee0" }}>{p.title}</h3>
+              <h3 style={{ margin: "12px 0 10px", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(22px,2.4vw,28px)", color: "#f3eee0" }}>{p.title}</h3>
               <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: "rgba(231,225,210,.66)" }}>{p.body}</p>
             </div>
           ))}
@@ -102,7 +102,7 @@ export default function AboutPage() {
       {/* Team */}
       <section style={{ padding: "clamp(50px,7vw,100px) clamp(18px,5vw,72px)", maxWidth: 1320, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(28px,3.4vw,46px)" }}>
-          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(32px,4.6vw,58px)", lineHeight: 1, color: "#f3eee0" }}>The team</h2>
+          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(32px,4.6vw,58px)", lineHeight: 1, color: "#f3eee0" }}>The team</h2>
           <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>Leadership</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,240px),1fr))", gap: "clamp(18px,2vw,30px)" }}>
@@ -122,13 +122,13 @@ export default function AboutPage() {
       {/* CTA strip */}
       <section style={{ padding: "clamp(46px,6vw,84px) clamp(18px,5vw,72px)", background: "#1f0609", borderTop: "1px solid rgba(231,225,210,.08)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 28, flexWrap: "wrap" as const }}>
-          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1.02, color: "#f3eee0", maxWidth: 640 }}>
+          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1.02, color: "#f3eee0", maxWidth: 640 }}>
             Have something you want the world to feel?
           </h2>
           <Link
             to="/#start"
             onClick={e => { if (window.location.pathname === "/") { e.preventDefault(); document.getElementById("start")?.scrollIntoView({ behavior: "smooth" }); } }}
-            style={{ flex: "0 0 auto", display: "inline-flex", alignItems: "center", gap: 10, background: "#c2a06a", color: "#1c0509", fontWeight: 600, fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase" as const, padding: "15px 26px", borderRadius: 2, textDecoration: "none", transition: "background .25s,transform .2s" }}
+            style={{ flex: "0 0 auto", display: "inline-flex", alignItems: "center", gap: 10, background: "#c2a06a", color: "#1c0509", fontWeight: 400, fontSize: 13, letterSpacing: ".1em", textTransform: "uppercase" as const, padding: "15px 26px", borderRadius: 2, textDecoration: "none", transition: "background .25s,transform .2s" }}
             onMouseEnter={e => { e.currentTarget.style.background = "#d6b884"; e.currentTarget.style.transform = "translateY(-1px)"; }}
             onMouseLeave={e => { e.currentTarget.style.background = "#c2a06a"; e.currentTarget.style.transform = "translateY(0)"; }}
           >

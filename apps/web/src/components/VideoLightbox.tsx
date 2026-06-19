@@ -34,8 +34,8 @@ export default function VideoLightbox({ title, videoUrl, onClose }: Props) {
       <div onClick={e => e.stopPropagation()} style={{ width: "100%", maxWidth: 1040 }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 14 }}>
           <div>
-            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Now playing</span>
-            <h3 style={{ margin: "6px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(26px,4vw,42px)", lineHeight: 1, color: "#f3eee0" }}>{title}</h3>
+            <span style={{ fontSize: 11, fontWeight: 400, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Now playing</span>
+            <h3 style={{ margin: "6px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(26px,4vw,42px)", lineHeight: 1, color: "#f3eee0" }}>{title}</h3>
           </div>
           <button
             onClick={onClose}

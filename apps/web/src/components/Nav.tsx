@@ -160,7 +160,7 @@ export default function Nav() {
           }}
           style={{
             flex: "0 0 auto", display: "inline-flex", alignItems: "center", gap: 9,
-            background: "#c2a06a", color: "#1c0509", fontWeight: 600,
+            background: "#c2a06a", color: "#1c0509", fontWeight: 500,
             fontSize: 12.5, letterSpacing: ".1em", textTransform: "uppercase" as const,
             padding: "11px 20px", borderRadius: 2, textDecoration: "none",
             transition: "transform .25s ease, background .25s ease",

@@ -107,12 +107,13 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
               >
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(165deg,#561124 0%,#350b16 55%,#160407 100%)", transformOrigin: "center", animation: "fuegoKenburns 9s ease-in-out infinite alternate" }} />
-                <span style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 50% 22%, transparent 40%, rgba(11,3,5,.7) 100%)" }} />
                 <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 16px", background: "linear-gradient(0deg, rgba(13,3,5,.88), transparent)" }}>
-                  <span style={{ display: "block", fontSize: 10.5, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
-                  <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(18px,2vw,22px)", lineHeight: 1.1, color: "#f3eee0" }}>{t.title}</span>
-                </span>
+                <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(13,3,5,.55) 0%, transparent 40%)" }} />
+                <span style={{
+                  position: "absolute", left: 12, bottom: 12,
+                  fontSize: 9, fontWeight: 400, letterSpacing: ".14em",
+                  textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)",
+                }}>{t.tag}</span>
               </button>
             ) : (
               <button
@@ -130,21 +131,13 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.filter = "none"; }}
               >
                 <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)" }} />
-                <span style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 50% 26%, transparent 38%, rgba(12,3,5,.62) 100%)" }} />
                 <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                {t.isLive && (
-                  <span style={{ position: "absolute", left: 14, top: 13, display: "inline-flex", alignItems: "center", gap: 6, fontSize: 10.5, fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "#e7e1d2", background: "rgba(122,16,28,.62)", padding: "4px 9px", borderRadius: 3 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#e7e1d2", display: "inline-block" }} />
-                    Live
-                  </span>
-                )}
-                {t.dur && (
-                  <span style={{ position: "absolute", right: 14, top: 13, fontSize: 11, fontWeight: 600, letterSpacing: ".08em", color: "rgba(231,225,210,.78)", background: "rgba(20,4,7,.42)", padding: "4px 9px", borderRadius: 3, fontVariantNumeric: "tabular-nums" }}>{t.dur}</span>
-                )}
-                <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 18px 16px", background: "linear-gradient(0deg, rgba(15,4,6,.82), transparent)" }}>
-                  <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
-                  <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(20px,2.4vw,28px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
-                </span>
+                <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(12,3,5,.45) 0%, transparent 35%)" }} />
+                <span style={{
+                  position: "absolute", left: 14, bottom: 13,
+                  fontSize: 9, fontWeight: 400, letterSpacing: ".14em",
+                  textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)",
+                }}>{t.tag}</span>
               </button>
             )
           ))}

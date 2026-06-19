@@ -64,7 +64,7 @@ export default function Footer() {
             <img src="/assets/logo-ivory.png" alt="Fuego Media" style={{ height: 54, width: "auto", display: "block", marginBottom: 20 }} />
           </Link>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: "rgba(231,225,210,.55)" }}>
-            A video production studio for brands, individuals, corporates and governments. Documentary, commercials, live events and short-form.
+            one mission - turn your brand into something people actually want to watch, share and talk about.
           </p>
         </div>
 

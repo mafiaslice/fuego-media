@@ -105,7 +105,7 @@ function SectionHeader({ title }: { title: string }) {
   return (
     <div style={{
       padding: "0 clamp(18px,5vw,72px)",
-      marginBottom: "clamp(18px,2.5vw,32px)",
+      marginBottom: 12,
     }}>
       <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(1rem,1.65vw,1.25rem)", letterSpacing: ".1em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.88)" }}>
         {title}
@@ -145,17 +145,23 @@ export default function HomePage() {
         <WorkRow tiles={docTiles} speed={0.3} showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <SectionHeader title="Ad Campaigns & Commercials" />
-        <WorkRow tiles={adTiles} speed={0.36} reverse showTitles
-          onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        <div style={{ marginTop: "clamp(36px,5vw,64px)" }}>
+          <SectionHeader title="Ad Campaigns & Commercials" />
+          <WorkRow tiles={adTiles} speed={0.36} reverse showTitles
+            onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        </div>
 
-        <SectionHeader title="Live Events" />
-        <WorkRow tiles={liveTiles} speed={0.28} showTitles
-          onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        <div style={{ marginTop: "clamp(36px,5vw,64px)" }}>
+          <SectionHeader title="Live Events" />
+          <WorkRow tiles={liveTiles} speed={0.28} showTitles
+            onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        </div>
 
-        <SectionHeader title="Content, Shorts & Reels" />
-        <WorkRow tiles={reelTiles} speed={0.34} darkBg showTitles
-          onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        <div style={{ marginTop: "clamp(36px,5vw,64px)" }}>
+          <SectionHeader title="Content, Shorts & Reels" />
+          <WorkRow tiles={reelTiles} speed={0.34} darkBg showTitles
+            onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
+        </div>
       </div>
 
       <InquiryForm />

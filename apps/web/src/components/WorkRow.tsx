@@ -26,11 +26,35 @@ function ThumbnailImg({ thumbnailUrl, videoUrl, style }: {
   videoUrl?: string;
   style: React.CSSProperties;
 }) {
-  // Prefer the DB-cached URL; fall back to browser-derived thumbnail
   const derived = useThumbnail(thumbnailUrl ? "" : (videoUrl ?? ""));
   const src = thumbnailUrl || derived;
   if (!src) return null;
   return <img src={src} alt="" style={style} />;
+}
+
+// Tag + optional title stacked flush, no gap, bottom-left
+function TileLabel({ tag, title, showTitle, padding }: { tag: string; title: string; showTitle: boolean; padding: number }) {
+  return (
+    <div style={{
+      position: "absolute",
+      left: padding,
+      bottom: padding,
+      right: padding,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      gap: 3,
+    }}>
+      <span style={{ fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)", lineHeight: 1 }}>
+        {tag}
+      </span>
+      {showTitle && (
+        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".03em", color: "rgba(231,225,210,.95)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "100%", lineHeight: 1 }}>
+          {title}
+        </span>
+      )}
+    </div>
+  );
 }
 
 export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = false, showTitles = false, onTileClick }: Props) {
@@ -78,7 +102,8 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
 
   return (
     <section style={{
-      padding: "clamp(20px,3vw,36px) 0",
+      paddingBottom: "clamp(20px,3vw,36px)",
+      paddingTop: 0,
       ...(darkBg ? {
         marginTop: "clamp(16px,2vw,28px)",
         background: "linear-gradient(180deg,#3a0a14 0%,#2a0810 100%)",
@@ -114,10 +139,8 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(165deg,#561124 0%,#350b16 55%,#160407 100%)", transformOrigin: "center", animation: "fuegoKenburns 9s ease-in-out infinite alternate" }} />
                 <ThumbnailImg thumbnailUrl={t.thumbnailUrl} videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(13,3,5,.65) 0%, transparent 45%)" }} />
-                <span style={{ position: "absolute", left: 12, bottom: showTitles ? 30 : 12, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
-                {showTitles && (
-                  <span style={{ position: "absolute", left: 12, right: 12, bottom: 12, fontSize: 11, fontWeight: 700, letterSpacing: ".04em", color: "rgba(231,225,210,.95)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
-                )}
+                {/* Content/reel tiles: tag only, no title */}
+                <TileLabel tag={t.tag} title={t.title} showTitle={false} padding={12} />
               </button>
             ) : (
               <button key={i} onClick={() => onTileClick(t)} style={{
@@ -134,10 +157,7 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)" }} />
                 <ThumbnailImg thumbnailUrl={t.thumbnailUrl} videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(12,3,5,.6) 0%, transparent 40%)" }} />
-                <span style={{ position: "absolute", left: 14, bottom: showTitles ? 30 : 13, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
-                {showTitles && (
-                  <span style={{ position: "absolute", left: 14, right: 14, bottom: 13, fontSize: 11, fontWeight: 700, letterSpacing: ".04em", color: "rgba(231,225,210,.95)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
-                )}
+                <TileLabel tag={t.tag} title={t.title} showTitle={showTitles} padding={14} />
               </button>
             )
           ))}

@@ -101,18 +101,13 @@ function apiToTile(p: any): Tile {
 
 // ─── Section header component ─────────────────────────────────────────────────
 
-function SectionHeader({ num, title }: { num: string; title: string }) {
+function SectionHeader({ title }: { title: string }) {
   return (
     <div style={{
-      display: "flex", alignItems: "baseline", gap: 16,
       padding: "0 clamp(18px,5vw,72px)",
       marginBottom: "clamp(18px,2.5vw,32px)",
     }}>
-      <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 400, fontSize: 11, letterSpacing: ".22em", color: "rgba(194,160,106,.7)", textTransform: "uppercase" as const }}>
-        {num}
-      </span>
-      <span style={{ width: 28, height: 1, background: "rgba(194,160,106,.35)", flexShrink: 0 }} />
-      <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(0.85rem,1.4vw,1.05rem)", letterSpacing: ".12em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.75)" }}>
+      <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(1rem,1.65vw,1.25rem)", letterSpacing: ".1em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.88)" }}>
         {title}
       </span>
     </div>
@@ -146,19 +141,19 @@ export default function HomePage() {
       <LogoStrip />
 
       <div style={{ padding: "clamp(52px,6vw,88px) 0 0" }}>
-        <SectionHeader num="01" title="Documentary" />
+        <SectionHeader title="Documentary" />
         <WorkRow tiles={docTiles} speed={0.3} showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <SectionHeader num="02" title="Ad Campaigns & Commercials" />
+        <SectionHeader title="Ad Campaigns & Commercials" />
         <WorkRow tiles={adTiles} speed={0.36} reverse showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <SectionHeader num="03" title="Live Events" />
+        <SectionHeader title="Live Events" />
         <WorkRow tiles={liveTiles} speed={0.28} showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <SectionHeader num="04" title="Content, Shorts & Reels" />
+        <SectionHeader title="Content, Shorts & Reels" />
         <WorkRow tiles={reelTiles} speed={0.34} darkBg showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
       </div>

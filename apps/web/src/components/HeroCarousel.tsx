@@ -19,7 +19,7 @@ function SlideBg({ slide, active, phase }: { slide: HeroSlide; active: boolean; 
   return (
     <div style={{
       position: "absolute", inset: 0,
-      backgroundImage: thumb ? `url(${thumb})` : undefined,
+      backgroundImage: thumb ? `url("${thumb}")` : undefined,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundColor: "#160407",

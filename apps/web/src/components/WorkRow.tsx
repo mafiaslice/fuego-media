@@ -116,7 +116,7 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(13,3,5,.65) 0%, transparent 45%)" }} />
                 <span style={{ position: "absolute", left: 12, bottom: showTitles ? 30 : 12, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
                 {showTitles && (
-                  <span style={{ position: "absolute", left: 12, right: 12, bottom: 12, fontSize: 11, fontWeight: 400, letterSpacing: ".04em", color: "rgba(231,225,210,.88)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
+                  <span style={{ position: "absolute", left: 12, right: 12, bottom: 12, fontSize: 11, fontWeight: 700, letterSpacing: ".04em", color: "rgba(231,225,210,.95)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
                 )}
               </button>
             ) : (
@@ -136,7 +136,7 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(12,3,5,.6) 0%, transparent 40%)" }} />
                 <span style={{ position: "absolute", left: 14, bottom: showTitles ? 30 : 13, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
                 {showTitles && (
-                  <span style={{ position: "absolute", left: 14, right: 14, bottom: 13, fontSize: 11, fontWeight: 400, letterSpacing: ".04em", color: "rgba(231,225,210,.88)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
+                  <span style={{ position: "absolute", left: 14, right: 14, bottom: 13, fontSize: 11, fontWeight: 700, letterSpacing: ".04em", color: "rgba(231,225,210,.95)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</span>
                 )}
               </button>
             )

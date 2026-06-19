@@ -62,7 +62,7 @@ export default function InquiryForm({ defaultType, headline }: Props) {
         <div>
           <span style={{ fontSize: 12, fontWeight: 400, letterSpacing: ".24em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Start a project</span>
           {headline ?? (
-            <h2 style={{ margin: "18px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
+            <h2 style={{ margin: "18px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(1.8rem,3.5vw,3rem)", lineHeight: 1.15, letterSpacing: "-.01em", color: "#f3eee0" }}>
               Tell us what you<br />want the world to feel.
             </h2>
           )}

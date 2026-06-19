@@ -7,7 +7,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function VideoLightbox({ title, videoUrl, onClose }: Props) {
+export default function VideoLightbox({ videoUrl, onClose }: Props) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -32,15 +32,11 @@ export default function VideoLightbox({ title, videoUrl, onClose }: Props) {
       }}
     >
       <div onClick={e => e.stopPropagation()} style={{ width: "100%", maxWidth: 1040 }}>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 14 }}>
-          <div>
-            <span style={{ fontSize: 11, fontWeight: 400, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a" }}>Now playing</span>
-            <h3 style={{ margin: "6px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(26px,4vw,42px)", lineHeight: 1, color: "#f3eee0" }}>{title}</h3>
-          </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
           <button
             onClick={onClose}
             aria-label="Close"
-            style={{ flex: "0 0 auto", width: 46, height: 46, borderRadius: "50%", border: "1px solid rgba(231,225,210,.3)", background: "transparent", color: "#e7e1d2", fontSize: 20, cursor: "pointer", transition: "background .25s" }}
+            style={{ width: 46, height: 46, borderRadius: "50%", border: "1px solid rgba(231,225,210,.3)", background: "transparent", color: "#e7e1d2", fontSize: 20, cursor: "pointer", transition: "background .25s" }}
             onMouseEnter={e => (e.currentTarget.style.background = "rgba(231,225,210,.12)")}
             onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
           >&times;</button>

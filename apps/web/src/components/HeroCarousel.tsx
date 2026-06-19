@@ -103,7 +103,7 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
           </div>
           <h1 style={{
             margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 500,
-            fontSize: "clamp(46px,8.4vw,116px)", lineHeight: .94, letterSpacing: "-.01em",
+            fontSize: "clamp(2rem,4vw,3.5rem)", lineHeight: 1.1, letterSpacing: "-.01em",
             color: "#f3eee0",
           }}>
             {cur.title}

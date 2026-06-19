@@ -7,7 +7,7 @@ import {
   project_inquiries,
   newsletter_subscribers,
 } from "../db/schema";
-import { eq, desc, asc, sql } from "drizzle-orm";
+import { eq, desc, asc } from "drizzle-orm";
 
 const router = Router();
 
@@ -15,21 +15,11 @@ const router = Router();
 router.get("/projects", async (req, res) => {
   try {
     const category = req.query.category as string | undefined;
-    let rows;
-    if (category) {
-      rows = await db
-        .select()
-        .from(projects)
-        .where(eq(projects.is_live, true))
-        .where(eq(projects.category, category))
-        .orderBy(asc(projects.sort_order));
-    } else {
-      rows = await db
-        .select()
-        .from(projects)
-        .where(eq(projects.is_live, true))
-        .orderBy(asc(projects.sort_order));
-    }
+    const rows = await db
+      .select()
+      .from(projects)
+      .where(category ? eq(projects.category, category) : undefined)
+      .orderBy(asc(projects.sort_order));
     res.json(rows);
   } catch (err) {
     console.error(err);
@@ -59,9 +49,7 @@ router.get("/bts/:slug", async (req, res) => {
       .select()
       .from(bts_entries)
       .where(eq(bts_entries.slug, slug));
-    if (!entry) {
-      return res.status(404).json({ error: "Not found" });
-    }
+    if (!entry) return res.status(404).json({ error: "Not found" });
     const images = await db
       .select()
       .from(bts_images)
@@ -78,15 +66,9 @@ router.get("/bts/:slug", async (req, res) => {
 router.post("/inquiries", async (req, res) => {
   try {
     const { name, email, project_type, message } = req.body as {
-      name: string;
-      email: string;
-      project_type: string;
-      message: string;
+      name: string; email: string; project_type: string; message: string;
     };
-    const [record] = await db
-      .insert(project_inquiries)
-      .values({ name, email, project_type, message })
-      .returning();
+    const [record] = await db.insert(project_inquiries).values({ name, email, project_type, message }).returning();
     res.status(201).json(record);
   } catch (err) {
     console.error(err);
@@ -98,10 +80,7 @@ router.post("/inquiries", async (req, res) => {
 router.post("/newsletter", async (req, res) => {
   try {
     const { email } = req.body as { email: string };
-    await db
-      .insert(newsletter_subscribers)
-      .values({ email })
-      .onConflictDoNothing({ target: newsletter_subscribers.email });
+    await db.insert(newsletter_subscribers).values({ email }).onConflictDoNothing({ target: newsletter_subscribers.email });
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error(err);

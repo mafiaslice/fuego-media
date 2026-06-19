@@ -1,14 +1,35 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useThumbnail } from "../hooks/useThumbnail";
 
-interface Slide {
+export interface HeroSlide {
   title: string;
   category: string;
-  bg: string;
+  videoUrl: string;
 }
 
 interface Props {
-  slides: Slide[];
-  onPlay: (title: string) => void;
+  slides: HeroSlide[];
+  onPlay: (videoUrl: string, title: string) => void;
+}
+
+function SlideBg({ slide, active, phase }: { slide: HeroSlide; active: boolean; phase: "rest" | "play" }) {
+  const thumb = useThumbnail(slide.videoUrl);
+  return (
+    <div style={{
+      position: "absolute", inset: 0,
+      backgroundImage: thumb ? `url(${thumb})` : undefined,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundColor: "#160407",
+      transform: `scale(${active && phase === "play" ? 1.09 : 1.0})`,
+      transition: "transform 6s ease-out",
+      willChange: "transform",
+    }}>
+      {!thumb && (
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 70% 22%, #6e1626 0%, #3a0b16 46%, #150406 100%)" }} />
+      )}
+    </div>
+  );
 }
 
 export default function HeroCarousel({ slides, onPlay }: Props) {
@@ -43,6 +64,7 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
   };
 
   const cur = slides[idx] ?? slides[0];
+  if (!cur) return null;
   const counter = `${String(idx + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
 
   return (
@@ -60,15 +82,9 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
           transition: "opacity 1.3s ease",
           pointerEvents: "none",
         }}>
-          <div style={{
-            position: "absolute", inset: 0,
-            background: s.bg,
-            transform: `scale(${i === idx && phase === "play" ? 1.09 : 1.0})`,
-            transition: "transform 6s ease-out",
-            willChange: "transform",
-          }} />
+          <SlideBg slide={s} active={i === idx} phase={phase} />
           <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px)", mixBlendMode: "overlay" }} />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,4,7,.36) 0%, rgba(20,4,7,0) 30%, rgba(20,4,7,.22) 62%, rgba(20,4,7,.92) 100%)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,4,7,.52) 0%, rgba(20,4,7,0) 28%, rgba(20,4,7,.18) 58%, rgba(20,4,7,.94) 100%)" }} />
         </div>
       ))}
 
@@ -94,7 +110,7 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
           </h1>
           <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 30 }}>
             <button
-              onClick={() => onPlay(cur.title)}
+              onClick={() => onPlay(cur.videoUrl, cur.title)}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 13,
                 background: "rgba(231,225,210,.06)", border: "1px solid rgba(231,225,210,.5)",
@@ -115,16 +131,12 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <button
-            onClick={() => goTo((idx - 1 + slides.length) % slides.length)}
-            aria-label="Previous"
+          <button onClick={() => goTo((idx - 1 + slides.length) % slides.length)} aria-label="Previous"
             style={{ width: 50, height: 50, borderRadius: "50%", border: "1px solid rgba(231,225,210,.28)", background: "rgba(20,4,7,.3)", color: "#e7e1d2", cursor: "pointer", fontSize: 18, transition: "background .25s,border-color .25s" }}
             onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.12)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.6)"; }}
             onMouseLeave={e => { e.currentTarget.style.background = "rgba(20,4,7,.3)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.28)"; }}
           >←</button>
-          <button
-            onClick={() => goTo((idx + 1) % slides.length)}
-            aria-label="Next"
+          <button onClick={() => goTo((idx + 1) % slides.length)} aria-label="Next"
             style={{ width: 50, height: 50, borderRadius: "50%", border: "1px solid rgba(231,225,210,.28)", background: "rgba(20,4,7,.3)", color: "#e7e1d2", cursor: "pointer", fontSize: 18, transition: "background .25s,border-color .25s" }}
             onMouseEnter={e => { e.currentTarget.style.background = "rgba(231,225,210,.12)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.6)"; }}
             onMouseLeave={e => { e.currentTarget.style.background = "rgba(20,4,7,.3)"; e.currentTarget.style.borderColor = "rgba(231,225,210,.28)"; }}
@@ -139,26 +151,14 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
         bottom: 26, zIndex: 20, display: "flex", gap: 8,
       }}>
         {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            style={{
-              flex: "1 1 0", height: 3, border: 0, padding: 0, cursor: "pointer",
-              borderRadius: 2,
-              background: i === idx ? "#c2a06a" : "rgba(231,225,210,.22)",
-              transition: "background .4s",
-            }}
+          <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`}
+            style={{ flex: "1 1 0", height: 3, border: 0, padding: 0, cursor: "pointer", borderRadius: 2, background: i === idx ? "#c2a06a" : "rgba(231,225,210,.22)", transition: "background .4s" }}
           />
         ))}
       </div>
 
       {/* Scroll hint */}
-      <div style={{
-        position: "absolute", left: "50%", bottom: 96, zIndex: 15,
-        animation: "fuegoFloat 2.8s ease-in-out infinite",
-        pointerEvents: "none",
-      }}>
+      <div style={{ position: "absolute", left: "50%", bottom: 96, zIndex: 15, animation: "fuegoFloat 2.8s ease-in-out infinite", pointerEvents: "none" }}>
         <span style={{ fontSize: 10, letterSpacing: ".28em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.45)" }}>Scroll</span>
       </div>
     </section>

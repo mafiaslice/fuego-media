@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
+import { useThumbnail } from "../hooks/useThumbnail";
 
 export interface Tile {
   title: string;
   tag: string;
   dur: string;
   bg: string;
-  thumbnailUrl?: string;
   videoUrl?: string;
   isLive?: boolean;
   isContent?: boolean;
@@ -20,6 +20,12 @@ interface Props {
   reverse?: boolean;
   darkBg?: boolean;
   onTileClick: (tile: Tile) => void;
+}
+
+function ThumbnailImg({ videoUrl, style }: { videoUrl?: string; style: React.CSSProperties }) {
+  const thumb = useThumbnail(videoUrl ?? "");
+  if (!thumb) return null;
+  return <img src={thumb} alt="" style={style} />;
 }
 
 export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reverse = false, darkBg = false, onTileClick }: Props) {
@@ -53,18 +59,17 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
     };
     requestAnimationFrame(() => { measure(); step(); });
 
-    const onResize = () => measure();
-    window.addEventListener("resize", onResize);
-
+    window.addEventListener("resize", measure);
     return () => {
       running = false;
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", measure);
     };
   }, [speed, reverse]);
 
   const isContent = tiles[0]?.isContent;
+  const doubled = [...tiles, ...tiles];
 
   return (
     <section style={{
@@ -101,7 +106,7 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
           padding: "0 clamp(18px,5vw,72px)",
           willChange: "transform",
         }}>
-          {[...tiles, ...tiles].map((t, i) => (
+          {doubled.map((t, i) => (
             isContent ? (
               <button
                 key={i}
@@ -118,9 +123,7 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
               >
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(165deg,#561124 0%,#350b16 55%,#160407 100%)", transformOrigin: "center", animation: "fuegoKenburns 9s ease-in-out infinite alternate" }} />
                 <span style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 50% 22%, transparent 40%, rgba(11,3,5,.7) 100%)" }} />
-                {t.thumbnailUrl && <img src={t.thumbnailUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
-                <span style={{ position: "absolute", left: 13, top: 13, display: "inline-flex", alignItems: "center", gap: 6, fontSize: 10, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.85)", background: "rgba(20,4,7,.5)", padding: "4px 9px", borderRadius: 20 }}>▶ Auto</span>
-                <span style={{ position: "absolute", right: 13, top: 13, width: 26, height: 26, borderRadius: "50%", background: "rgba(20,4,7,.5)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "rgba(231,225,210,.85)" }}>🔇</span>
+                <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 16px", background: "linear-gradient(0deg, rgba(13,3,5,.88), transparent)" }}>
                   <span style={{ display: "block", fontSize: 10.5, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
                   <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.3vw,26px)", lineHeight: 1.06, color: "#f3eee0" }}>{t.title}</span>
@@ -143,14 +146,16 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
               >
                 <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)" }} />
                 <span style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 50% 26%, transparent 38%, rgba(12,3,5,.62) 100%)" }} />
-                {t.thumbnailUrl && <img src={t.thumbnailUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+                <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 {t.isLive && (
                   <span style={{ position: "absolute", left: 14, top: 13, display: "inline-flex", alignItems: "center", gap: 6, fontSize: 10.5, fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "#e7e1d2", background: "rgba(122,16,28,.62)", padding: "4px 9px", borderRadius: 3 }}>
                     <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#e7e1d2", display: "inline-block" }} />
                     Live
                   </span>
                 )}
-                <span style={{ position: "absolute", right: 14, top: 13, fontSize: 11, fontWeight: 600, letterSpacing: ".08em", color: "rgba(231,225,210,.78)", background: "rgba(20,4,7,.42)", padding: "4px 9px", borderRadius: 3, fontVariantNumeric: "tabular-nums" }}>{t.dur}</span>
+                {t.dur && (
+                  <span style={{ position: "absolute", right: 14, top: 13, fontSize: 11, fontWeight: 600, letterSpacing: ".08em", color: "rgba(231,225,210,.78)", background: "rgba(20,4,7,.42)", padding: "4px 9px", borderRadius: 3, fontVariantNumeric: "tabular-nums" }}>{t.dur}</span>
+                )}
                 <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 18px 16px", background: "linear-gradient(0deg, rgba(15,4,6,.82), transparent)" }}>
                   <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
                   <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>

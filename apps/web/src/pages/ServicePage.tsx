@@ -128,7 +128,7 @@ export default function ServicePage({ category }: Props) {
           <span style={{ opacity: .5 }}>/</span>
           <span style={{ color: "#c2a06a" }}>{cfg.label}</span>
         </div>
-        <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(54px,10vw,140px)", lineHeight: .9, letterSpacing: "-.015em", color: "#f3eee0" }}>{cfg.label}</h1>
+        <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(54px,10vw,140px)", lineHeight: .9, letterSpacing: "-.015em", color: "#f3eee0" }}>{cfg.label}</h1>
         <p style={{ margin: "clamp(20px,2.6vw,30px) 0 0", maxWidth: 680, fontSize: "clamp(17px,2vw,22px)", lineHeight: 1.5, color: "rgba(231,225,210,.74)", fontWeight: 300 }}>{cfg.positioning}</p>
       </section>
 
@@ -155,7 +155,7 @@ export default function ServicePage({ category }: Props) {
               </span>
               <span style={{ textAlign: "left" as const }}>
                 <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".18em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 4 }}>{cfg.reelLabel}</span>
-                <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(24px,3vw,38px)", lineHeight: 1, color: "#f3eee0" }}>Watch the reel</span>
+                <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontSize: "clamp(24px,3vw,38px)", lineHeight: 1, color: "#f3eee0" }}>Watch the reel</span>
               </span>
             </span>
             <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.6)" }}>2:40</span>
@@ -168,11 +168,11 @@ export default function ServicePage({ category }: Props) {
         <div style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "clamp(34px,5vw,80px)" }}>
           <div>
             <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 18 }}>What this means to us</span>
-            <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementA}</p>
+            <p style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementA}</p>
           </div>
           <div>
             <span style={{ display: "inline-block", fontSize: 12, fontWeight: 600, letterSpacing: ".2em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 18 }}>How we make it</span>
-            <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementB}</p>
+            <p style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 400, fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.32, color: "#ece5d6" }}>{cfg.statementB}</p>
           </div>
         </div>
       </section>
@@ -180,7 +180,7 @@ export default function ServicePage({ category }: Props) {
       {/* Work grid */}
       <section style={{ padding: "clamp(46px,6vw,90px) clamp(18px,5vw,72px)", maxWidth: 1400, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(26px,3vw,42px)" }}>
-          <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>Selected work</h2>
+          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>Selected work</h2>
           <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>{tiles.length} films</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,330px),1fr))", gap: "clamp(14px,1.6vw,26px)" }}>
@@ -203,7 +203,7 @@ export default function ServicePage({ category }: Props) {
               <span style={{ position: "absolute", right: 14, top: 13, fontSize: 11, fontWeight: 600, letterSpacing: ".08em", color: "rgba(231,225,210,.78)", background: "rgba(20,4,7,.42)", padding: "4px 9px", borderRadius: 3, fontVariantNumeric: "tabular-nums" }}>{t.dur}</span>
               <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 18px 16px", background: "linear-gradient(0deg, rgba(15,4,6,.82), transparent)" }}>
                 <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
-                <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
+                <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
               </span>
             </button>
           ))}
@@ -213,7 +213,7 @@ export default function ServicePage({ category }: Props) {
       <InquiryForm
         defaultType={cfg.defaultType}
         headline={
-          <h2 style={{ margin: "18px 0 0", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
+          <h2 style={{ margin: "18px 0 0", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(40px,6.4vw,82px)", lineHeight: .98, letterSpacing: "-.01em", color: "#f3eee0" }}>
             Have a {cfg.categoryLower}<br />in mind?
           </h2>
         }

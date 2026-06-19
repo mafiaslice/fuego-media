@@ -23,7 +23,7 @@ export default function NewsletterSignup() {
         gap: 28, flexWrap: "wrap" as const,
       }}>
         <div style={{ maxWidth: 440 }}>
-          <h3 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(26px,3.4vw,38px)", color: "#f3eee0" }}>
+          <h3 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(26px,3.4vw,38px)", color: "#f3eee0" }}>
             The Fuego dispatch
           </h3>
           <p style={{ margin: "8px 0 0", fontSize: 14, lineHeight: 1.6, color: "rgba(231,225,210,.6)" }}>

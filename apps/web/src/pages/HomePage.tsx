@@ -125,20 +125,16 @@ export default function HomePage() {
       <LogoStrip />
 
       <div style={{ padding: "clamp(40px,5vw,70px) 0 0" }}>
-        <WorkRow num="01" title="Documentary" subtitle="Long-form & cinema"
-          tiles={docTiles} speed={0.3}
+        <WorkRow tiles={docTiles} speed={0.3}
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow num="02" title="Ad Campaigns & Commercials" subtitle="Brands & launches"
-          tiles={adTiles} speed={0.36} reverse
+        <WorkRow tiles={adTiles} speed={0.36} reverse
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow num="03" title="Live Events" subtitle="Concerts, ceremonies, keynotes"
-          tiles={liveTiles} speed={0.28}
+        <WorkRow tiles={liveTiles} speed={0.28}
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow num="04" title="Content, Shorts & Reels" subtitle="Vertical, shot for the feed"
-          tiles={reelTiles} speed={0.34} darkBg
+        <WorkRow tiles={reelTiles} speed={0.34} darkBg
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
       </div>
 

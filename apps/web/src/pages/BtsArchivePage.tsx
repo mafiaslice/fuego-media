@@ -55,7 +55,7 @@ export default function BtsArchivePage() {
             <span style={{ opacity: .5 }}>/</span>
             <span style={{ color: "#b5485c" }}>Field Notebook</span>
           </div>
-          <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(46px,8.4vw,118px)", lineHeight: .92, letterSpacing: "-.01em", color: "#efe9dc", maxWidth: "18ch" }}>The Field Notebook</h1>
+          <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(46px,8.4vw,118px)", lineHeight: .92, letterSpacing: "-.01em", color: "#efe9dc", maxWidth: "18ch" }}>The Field Notebook</h1>
           <p style={{ margin: "clamp(20px,2.4vw,30px) 0 0", maxWidth: 620, fontSize: 16, lineHeight: 1.7, color: "rgba(228,221,207,.62)" }}>
             The reel is the highlight. This is the raw archive — dated frames from years on set, the ones that never make the cut but tell the truth about how the work gets made.
           </p>
@@ -71,7 +71,7 @@ export default function BtsArchivePage() {
               background: "#100f0d", padding: "8px 0", zIndex: 5,
             }}>
               <span style={{ width: 9, height: 9, background: "#7a1a2c", borderRadius: "50%", flex: "0 0 auto" }} />
-              <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(38px,6vw,76px)", lineHeight: .9, color: "#efe9dc", fontVariantNumeric: "tabular-nums" }}>{yr.year}</h2>
+              <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(38px,6vw,76px)", lineHeight: .9, color: "#efe9dc", fontVariantNumeric: "tabular-nums" }}>{yr.year}</h2>
               <span style={{ flex: "1 1 auto", height: 1, background: "rgba(228,221,207,.14)" }} />
               <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11.5, letterSpacing: ".1em", color: "rgba(228,221,207,.4)", whiteSpace: "nowrap" as const }}>{yr.count} dispatches</span>
             </div>
@@ -92,7 +92,7 @@ export default function BtsArchivePage() {
                     <span style={{ position: "absolute", right: 10, top: 9, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, letterSpacing: ".06em", color: "#b5485c" }}>{c.tag}</span>
                   </div>
                   <div style={{ padding: "13px 2px 0" }}>
-                    <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.1vw,25px)", lineHeight: 1.08, color: "#efe9dc" }}>{c.title}</span>
+                    <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontSize: "clamp(20px,2.1vw,25px)", lineHeight: 1.08, color: "#efe9dc" }}>{c.title}</span>
                     <span style={{ display: "block", marginTop: 6, fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, letterSpacing: ".04em", color: "rgba(228,221,207,.5)" }}>{c.meta}</span>
                     <span style={{ display: "block", marginTop: 9, fontSize: 13.5, lineHeight: 1.55, color: "rgba(228,221,207,.66)" }}>{c.caption}</span>
                   </div>

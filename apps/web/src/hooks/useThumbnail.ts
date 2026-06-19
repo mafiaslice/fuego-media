@@ -17,7 +17,7 @@ export function useThumbnail(videoUrl: string): string | null {
     const vm = vimeoId(videoUrl);
     if (!vm || vimeoCache.has(vm) || pending.has(vm)) return;
     pending.add(vm);
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vm}`)
+    fetch(`/api/vimeo-thumbnail?url=${encodeURIComponent(`https://vimeo.com/${vm}`)}`)
       .then(r => r.json())
       .then(data => {
         if (data.thumbnail_url) {

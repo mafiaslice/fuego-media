@@ -102,7 +102,7 @@ export default function HeroCarousel({ slides, onPlay }: Props) {
             <span style={{ fontSize: 13, letterSpacing: ".12em", color: "rgba(231,225,210,.6)", fontVariantNumeric: "tabular-nums" }}>{counter}</span>
           </div>
           <h1 style={{
-            margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500,
+            margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700,
             fontSize: "clamp(46px,8.4vw,116px)", lineHeight: .94, letterSpacing: "-.01em",
             color: "#f3eee0",
           }}>

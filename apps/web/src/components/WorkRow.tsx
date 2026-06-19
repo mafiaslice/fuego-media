@@ -12,9 +12,6 @@ export interface Tile {
 }
 
 interface Props {
-  num: string;
-  title: string;
-  subtitle: string;
   tiles: Tile[];
   speed?: number;
   reverse?: boolean;
@@ -28,7 +25,7 @@ function ThumbnailImg({ videoUrl, style }: { videoUrl?: string; style: React.CSS
   return <img src={thumb} alt="" style={style} />;
 }
 
-export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reverse = false, darkBg = false, onTileClick }: Props) {
+export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = false, onTileClick }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,27 +70,15 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
 
   return (
     <section style={{
-      padding: "clamp(30px,4vw,54px) 0",
+      padding: "clamp(20px,3vw,36px) 0",
       ...(darkBg ? {
-        marginTop: "clamp(24px,3vw,40px)",
+        marginTop: "clamp(16px,2vw,28px)",
         background: "linear-gradient(180deg,#3a0a14 0%,#2a0810 100%)",
         borderTop: "1px solid rgba(231,225,210,.1)",
-        paddingTop: "clamp(46px,6vw,86px)",
-        paddingBottom: "clamp(46px,6vw,86px)",
+        paddingTop: "clamp(28px,4vw,52px)",
+        paddingBottom: "clamp(28px,4vw,52px)",
       } : {}),
     }}>
-      <div style={{
-        padding: "0 clamp(18px,5vw,72px)",
-        display: "flex", alignItems: "flex-end", justifyContent: "space-between",
-        gap: 20, marginBottom: "clamp(20px,2.6vw,34px)",
-      }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
-          <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(16px,2vw,22px)", color: "#c2a06a" }}>{num}</span>
-          <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(32px,5vw,62px)", lineHeight: 1, color: "#f3eee0" }}>{title}</h2>
-        </div>
-        <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>{subtitle}</span>
-      </div>
-
       <div style={{
         overflow: "hidden", cursor: "grab",
         WebkitMaskImage: "linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)",
@@ -126,7 +111,7 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
                 <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 16px", background: "linear-gradient(0deg, rgba(13,3,5,.88), transparent)" }}>
                   <span style={{ display: "block", fontSize: 10.5, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
-                  <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.3vw,26px)", lineHeight: 1.06, color: "#f3eee0" }}>{t.title}</span>
+                  <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(18px,2vw,22px)", lineHeight: 1.1, color: "#f3eee0" }}>{t.title}</span>
                 </span>
               </button>
             ) : (
@@ -158,7 +143,7 @@ export default function WorkRow({ num, title, subtitle, tiles, speed = 0.3, reve
                 )}
                 <span style={{ position: "absolute", left: 0, right: 0, bottom: 0, textAlign: "left" as const, padding: "18px 18px 16px", background: "linear-gradient(0deg, rgba(15,4,6,.82), transparent)" }}>
                   <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: ".16em", textTransform: "uppercase" as const, color: "#c2a06a", marginBottom: 5 }}>{t.tag}</span>
-                  <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(22px,2.6vw,30px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
+                  <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(20px,2.4vw,28px)", lineHeight: 1.04, color: "#f3eee0" }}>{t.title}</span>
                 </span>
               </button>
             )

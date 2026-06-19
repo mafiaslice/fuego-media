@@ -1,4 +1,5 @@
 import { Router } from "express";
+import https from "https";
 import { db } from "../db";
 import {
   projects,
@@ -10,6 +11,26 @@ import {
 import { eq, desc, asc } from "drizzle-orm";
 
 const router = Router();
+
+// GET /vimeo-thumbnail?url=https://vimeo.com/123456
+router.get("/vimeo-thumbnail", async (req, res) => {
+  const url = req.query.url as string;
+  if (!url) return res.status(400).json({ error: "url param required" });
+  try {
+    const oembedUrl = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`;
+    const data = await new Promise<any>((resolve, reject) => {
+      https.get(oembedUrl, r => {
+        let body = "";
+        r.on("data", c => { body += c; });
+        r.on("end", () => { try { resolve(JSON.parse(body)); } catch { reject(new Error("parse error")); } });
+      }).on("error", reject);
+    });
+    if (!data.thumbnail_url) return res.status(404).json({ error: "no thumbnail" });
+    return res.json({ thumbnail_url: data.thumbnail_url });
+  } catch (err) {
+    return res.status(502).json({ error: "vimeo fetch failed" });
+  }
+});
 
 // GET /projects
 router.get("/projects", async (req, res) => {

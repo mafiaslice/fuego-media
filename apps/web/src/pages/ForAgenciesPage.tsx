@@ -24,7 +24,7 @@ export default function ForAgenciesPage() {
           <span style={{ opacity: .5 }}>/</span>
           <span style={{ color: "#c2a06a" }}>For Agencies</span>
         </div>
-        <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(48px,8.4vw,118px)", lineHeight: .92, letterSpacing: "-.015em", color: "#f3eee0", maxWidth: "14ch" }}>
+        <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(48px,8.4vw,118px)", lineHeight: .92, letterSpacing: "-.015em", color: "#f3eee0", maxWidth: "14ch" }}>
           Your production arm.
         </h1>
         <p style={{ margin: "clamp(20px,2.6vw,30px) 0 0", maxWidth: 660, fontSize: "clamp(17px,2vw,22px)", lineHeight: 1.55, color: "rgba(231,225,210,.74)", fontWeight: 300 }}>
@@ -34,7 +34,7 @@ export default function ForAgenciesPage() {
 
       {/* Lead copy */}
       <section style={{ padding: "clamp(36px,4vw,60px) clamp(18px,5vw,72px) clamp(50px,6vw,80px)", maxWidth: 1100, margin: "0 auto" }}>
-        <p style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 400, fontSize: "clamp(24px,3.4vw,42px)", lineHeight: 1.26, color: "#ece5d6" }}>
+        <p style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 400, fontSize: "clamp(24px,3.4vw,42px)", lineHeight: 1.26, color: "#ece5d6" }}>
           When a pitch lands and the timeline is already tight, agencies bring us in to own execution — from line-producing and crew to direction, post and delivery — so the work ships at the standard you sold.
         </p>
       </section>
@@ -46,8 +46,8 @@ export default function ForAgenciesPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,280px),1fr))", gap: "clamp(20px,2.4vw,40px)" }}>
             {SERVICES.map(s => (
               <div key={s.num} style={{ borderTop: "1px solid rgba(231,225,210,.16)", paddingTop: 20 }}>
-                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(18px,1.8vw,22px)", color: "#c2a06a" }}>{s.num}</span>
-                <h3 style={{ margin: "10px 0 10px", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(23px,2.5vw,30px)", color: "#f3eee0" }}>{s.title}</h3>
+                <span style={{ fontFamily: "'Raleway',sans-serif", fontSize: "clamp(18px,1.8vw,22px)", color: "#c2a06a" }}>{s.num}</span>
+                <h3 style={{ margin: "10px 0 10px", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(23px,2.5vw,30px)", color: "#f3eee0" }}>{s.title}</h3>
                 <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "rgba(231,225,210,.64)" }}>{s.body}</p>
               </div>
             ))}
@@ -58,7 +58,7 @@ export default function ForAgenciesPage() {
       {/* Agency reel */}
       <section style={{ padding: "clamp(50px,6vw,90px) clamp(18px,5vw,72px)", maxWidth: 1320, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(22px,2.6vw,34px)" }}>
-          <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>The agency reel</h2>
+          <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1, color: "#f3eee0" }}>The agency reel</h2>
           <span style={{ fontSize: 12, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.5)", whiteSpace: "nowrap" as const }}>Cut for partners · 1:45</span>
         </div>
         <button
@@ -86,7 +86,7 @@ export default function ForAgenciesPage() {
       {/* Bring us in */}
       <section id="bring-us-in" style={{ padding: "clamp(56px,7vw,110px) clamp(18px,5vw,72px)", background: "#520a18", borderTop: "1px solid rgba(231,225,210,.1)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-          <h2 style={{ margin: "0 0 clamp(34px,4vw,56px)", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(34px,5.4vw,72px)", lineHeight: 1, color: "#f3eee0" }}>Bring us in</h2>
+          <h2 style={{ margin: "0 0 clamp(34px,4vw,56px)", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(34px,5.4vw,72px)", lineHeight: 1, color: "#f3eee0" }}>Bring us in</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "clamp(28px,3.5vw,56px)", marginBottom: "clamp(40px,5vw,64px)" }}>
             {[
               { n: "01", title: "Send the brief", body: "Deck, script or a paragraph. NDA on request, same day." },
@@ -94,8 +94,8 @@ export default function ForAgenciesPage() {
               { n: "03", title: "We shoot, you ship", body: "Credited or white-label. You present the work as yours." },
             ].map(p => (
               <div key={p.n}>
-                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2vw,24px)", color: "#c2a06a" }}>{p.n}</span>
-                <h3 style={{ margin: "12px 0 8px", fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(21px,2.2vw,26px)", color: "#f3eee0" }}>{p.title}</h3>
+                <span style={{ fontFamily: "'Raleway',sans-serif", fontSize: "clamp(20px,2vw,24px)", color: "#c2a06a" }}>{p.n}</span>
+                <h3 style={{ margin: "12px 0 8px", fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(21px,2.2vw,26px)", color: "#f3eee0" }}>{p.title}</h3>
                 <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "rgba(231,225,210,.72)" }}>{p.body}</p>
               </div>
             ))}

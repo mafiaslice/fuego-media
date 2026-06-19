@@ -77,7 +77,7 @@ export default function BtsDispatchPage() {
             <span style={{ opacity: .5 }}>/</span>
             <span style={{ color: "#b5485c" }}>Dispatch {d.frame}</span>
           </div>
-          <h1 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(44px,7.4vw,104px)", lineHeight: .94, letterSpacing: "-.01em", color: "#efe9dc" }}>{d.title}</h1>
+          <h1 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(44px,7.4vw,104px)", lineHeight: .94, letterSpacing: "-.01em", color: "#efe9dc" }}>{d.title}</h1>
           <div style={{ marginTop: "clamp(26px,3vw,40px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 18, borderTop: "1px solid rgba(228,221,207,.14)", paddingTop: 22 }}>
             {[
               { label: "Project", value: d.project },
@@ -107,7 +107,7 @@ export default function BtsDispatchPage() {
         {/* Contact sheet */}
         <section style={{ padding: "clamp(20px,3vw,40px) clamp(18px,5vw,72px) clamp(40px,5vw,70px)", maxWidth: 1320, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: "clamp(22px,2.6vw,34px)" }}>
-            <h2 style={{ margin: 0, fontFamily: "'Cormorant Garamond',serif", fontWeight: 500, fontSize: "clamp(28px,3.8vw,48px)", lineHeight: 1, color: "#efe9dc" }}>Contact sheet</h2>
+            <h2 style={{ margin: 0, fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: "clamp(28px,3.8vw,48px)", lineHeight: 1, color: "#efe9dc" }}>Contact sheet</h2>
             <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, letterSpacing: ".08em", color: "rgba(228,221,207,.4)", whiteSpace: "nowrap" as const }}>{stills.length} frames · unretouched</span>
           </div>
           <div style={{ columns: "clamp(200px,23vw,280px)", columnGap: "clamp(12px,1.4vw,18px)" }}>
@@ -135,7 +135,7 @@ export default function BtsDispatchPage() {
         {/* Pull quote */}
         {d.quote && (
           <section style={{ padding: "clamp(46px,6vw,86px) clamp(18px,5vw,72px)", maxWidth: 980, margin: "0 auto", textAlign: "center" as const }}>
-            <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(26px,4vw,46px)", lineHeight: 1.28, color: "#efe9dc" }}>"{d.quote}"</span>
+            <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(26px,4vw,46px)", lineHeight: 1.28, color: "#efe9dc" }}>"{d.quote}"</span>
             <span style={{ display: "block", marginTop: 24, fontFamily: "'IBM Plex Mono',monospace", fontSize: 12, letterSpacing: ".1em", textTransform: "uppercase" as const, color: "#b5485c" }}>{d.quoteBy}</span>
           </section>
         )}
@@ -161,7 +161,7 @@ export default function BtsDispatchPage() {
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(228,221,207,.12)"; e.currentTarget.style.background = "transparent"; }}
             >
               <span style={{ display: "block", fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "#b5485c", marginBottom: 9 }}>← Previous dispatch</span>
-              <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.2vw,26px)", color: "#efe9dc" }}>{prevTitle}</span>
+              <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontSize: "clamp(20px,2.2vw,26px)", color: "#efe9dc" }}>{prevTitle}</span>
             </Link>
             <Link
               to={`/bts/${nextSlug}`}
@@ -170,7 +170,7 @@ export default function BtsDispatchPage() {
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(228,221,207,.12)"; e.currentTarget.style.background = "transparent"; }}
             >
               <span style={{ display: "block", fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, letterSpacing: ".12em", textTransform: "uppercase" as const, color: "#b5485c", marginBottom: 9 }}>Next dispatch →</span>
-              <span style={{ display: "block", fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(20px,2.2vw,26px)", color: "#efe9dc" }}>{nextTitle}</span>
+              <span style={{ display: "block", fontFamily: "'Raleway',sans-serif", fontSize: "clamp(20px,2.2vw,26px)", color: "#efe9dc" }}>{nextTitle}</span>
             </Link>
           </div>
           <div style={{ textAlign: "center" as const, marginTop: 24 }}>

@@ -82,7 +82,7 @@ const CAT_BG: Record<string, string> = {
 };
 
 function apiToSlide(p: any): HeroSlide {
-  return { title: p.title, category: CAT_LABEL[p.category] ?? p.category, videoUrl: p.video_url };
+  return { title: p.title, category: CAT_LABEL[p.category] ?? p.category, videoUrl: p.video_url, thumbnailUrl: p.thumbnail_url || undefined };
 }
 
 function apiToTile(p: any): Tile {
@@ -93,6 +93,7 @@ function apiToTile(p: any): Tile {
     dur: p.duration ?? "",
     bg: CAT_BG[p.category] ?? "",
     videoUrl: p.video_url,
+    thumbnailUrl: p.thumbnail_url || undefined,
     isLive: !!p.is_live,
     isContent,
   };

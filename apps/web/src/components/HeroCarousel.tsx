@@ -5,6 +5,7 @@ export interface HeroSlide {
   title: string;
   category: string;
   videoUrl: string;
+  thumbnailUrl?: string;
 }
 
 interface Props {
@@ -13,7 +14,8 @@ interface Props {
 }
 
 function SlideBg({ slide, active, phase }: { slide: HeroSlide; active: boolean; phase: "rest" | "play" }) {
-  const thumb = useThumbnail(slide.videoUrl);
+  const derived = useThumbnail(slide.thumbnailUrl ? "" : slide.videoUrl);
+  const thumb = slide.thumbnailUrl || derived;
   return (
     <div style={{
       position: "absolute", inset: 0,

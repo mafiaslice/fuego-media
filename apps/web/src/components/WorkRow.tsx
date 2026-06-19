@@ -7,6 +7,7 @@ export interface Tile {
   dur: string;
   bg: string;
   videoUrl?: string;
+  thumbnailUrl?: string;   // pre-cached from DB; skips browser fetch when set
   isLive?: boolean;
   isContent?: boolean;
 }
@@ -19,10 +20,16 @@ interface Props {
   onTileClick: (tile: Tile) => void;
 }
 
-function ThumbnailImg({ videoUrl, style }: { videoUrl?: string; style: React.CSSProperties }) {
-  const thumb = useThumbnail(videoUrl ?? "");
-  if (!thumb) return null;
-  return <img src={thumb} alt="" style={style} />;
+function ThumbnailImg({ thumbnailUrl, videoUrl, style }: {
+  thumbnailUrl?: string;
+  videoUrl?: string;
+  style: React.CSSProperties;
+}) {
+  // Prefer the DB-cached URL; fall back to browser-derived thumbnail
+  const derived = useThumbnail(thumbnailUrl ? "" : (videoUrl ?? ""));
+  const src = thumbnailUrl || derived;
+  if (!src) return null;
+  return <img src={src} alt="" style={style} />;
 }
 
 export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = false, onTileClick }: Props) {
@@ -93,51 +100,37 @@ export default function WorkRow({ tiles, speed = 0.3, reverse = false, darkBg = 
         }}>
           {doubled.map((t, i) => (
             isContent ? (
-              <button
-                key={i}
-                onClick={() => onTileClick(t)}
-                style={{
-                  position: "relative", flex: "0 0 auto",
-                  width: "clamp(220px,26vw,288px)", aspectRatio: "9/16",
-                  border: "1px solid rgba(231,225,210,.12)", padding: 0,
-                  cursor: "pointer", overflow: "hidden", borderRadius: 4,
-                  background: "#220609", transition: "transform .4s ease, box-shadow .4s ease",
-                }}
+              <button key={i} onClick={() => onTileClick(t)} style={{
+                position: "relative", flex: "0 0 auto",
+                width: "clamp(220px,26vw,288px)", aspectRatio: "9/16",
+                border: "1px solid rgba(231,225,210,.12)", padding: 0,
+                cursor: "pointer", overflow: "hidden", borderRadius: 4,
+                background: "#220609", transition: "transform .4s ease, box-shadow .4s ease",
+              }}
                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = "0 26px 56px rgba(0,0,0,.5)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
               >
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(165deg,#561124 0%,#350b16 55%,#160407 100%)", transformOrigin: "center", animation: "fuegoKenburns 9s ease-in-out infinite alternate" }} />
-                <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                <ThumbnailImg thumbnailUrl={t.thumbnailUrl} videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(13,3,5,.55) 0%, transparent 40%)" }} />
-                <span style={{
-                  position: "absolute", left: 12, bottom: 12,
-                  fontSize: 9, fontWeight: 400, letterSpacing: ".14em",
-                  textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)",
-                }}>{t.tag}</span>
+                <span style={{ position: "absolute", left: 12, bottom: 12, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
               </button>
             ) : (
-              <button
-                key={i}
-                onClick={() => onTileClick(t)}
-                style={{
-                  position: "relative", flex: "0 0 auto",
-                  width: "clamp(300px,33vw,440px)", aspectRatio: "16/9",
-                  border: "1px solid rgba(231,225,210,.1)", padding: 0,
-                  cursor: "pointer", overflow: "hidden", borderRadius: 3,
-                  background: t.bg,
-                  transition: "transform .4s ease, box-shadow .4s ease, filter .4s ease",
-                }}
+              <button key={i} onClick={() => onTileClick(t)} style={{
+                position: "relative", flex: "0 0 auto",
+                width: "clamp(300px,33vw,440px)", aspectRatio: "16/9",
+                border: "1px solid rgba(231,225,210,.1)", padding: 0,
+                cursor: "pointer", overflow: "hidden", borderRadius: 3,
+                background: t.bg,
+                transition: "transform .4s ease, box-shadow .4s ease, filter .4s ease",
+              }}
                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 22px 50px rgba(0,0,0,.45)"; e.currentTarget.style.filter = "brightness(1.07)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.filter = "none"; }}
               >
                 <span style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 3px)" }} />
-                <ThumbnailImg videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                <ThumbnailImg thumbnailUrl={t.thumbnailUrl} videoUrl={t.videoUrl} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
                 <span style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(12,3,5,.45) 0%, transparent 35%)" }} />
-                <span style={{
-                  position: "absolute", left: 14, bottom: 13,
-                  fontSize: 9, fontWeight: 400, letterSpacing: ".14em",
-                  textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)",
-                }}>{t.tag}</span>
+                <span style={{ position: "absolute", left: 14, bottom: 13, fontSize: 9, fontWeight: 400, letterSpacing: ".14em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.7)" }}>{t.tag}</span>
               </button>
             )
           ))}

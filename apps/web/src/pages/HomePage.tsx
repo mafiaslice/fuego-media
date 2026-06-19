@@ -12,57 +12,57 @@ import { fetchProjects } from "../api/client";
 // ─── Static fallback data (shown while API is loading or unavailable) ────────
 
 const FALLBACK_HERO: HeroSlide[] = [
-  { title: "The Meristem Experience", category: "Documentary", videoUrl: "https://vimeo.com/687825882" },
+  { title: "The Meristem Experience", category: "Documentary", videoUrl: "https://youtu.be/98_snbBDTBY", thumbnailUrl: "/thumbnails/Meristem Hero 01.jpg" },
   { title: "Vibe Out", category: "Commercial", videoUrl: "https://youtu.be/4XwVc0h2V4s" },
-  { title: "Pitch2Win 5", category: "Live", videoUrl: "https://youtu.be/x4-UnmXpSJ0" },
-  { title: "Light Up Katsina", category: "Documentary", videoUrl: "https://youtu.be/ttGgLQLEVTc" },
-  { title: "New Era", category: "Commercial", videoUrl: "https://youtu.be/8XFEpFjr4Tk" },
-  { title: "Art X Lagos Night", category: "Live", videoUrl: "https://youtu.be/m_qFswFxZfE" },
-  { title: "The Tristate", category: "Documentary", videoUrl: "https://youtu.be/Vyr1sKM-F3Q" },
+  { title: "PITCH2WIN-5", category: "Live", videoUrl: "https://youtu.be/IHClDRhUB0c" },
+  { title: "Light Up Kastina", category: "Documentary", videoUrl: "https://youtu.be/ttGgLQLEVTc" },
+  { title: "Hybrid Motors | New Era", category: "Commercial", videoUrl: "https://youtu.be/8XFEpFjr4Tk" },
+  { title: "SELF-WORTH: The Documentary", category: "Documentary", videoUrl: "https://vimeo.com/509390876", thumbnailUrl: "/thumbnails/SELF-WORTH 06.jpg" },
+  { title: "Africa's Tech Demo Day", category: "Live", videoUrl: "https://youtu.be/m_qFswFxZfE" },
 ];
 
 const FALLBACK_DOC: Tile[] = [
-  { title: "The Meristem Experience", tag: "Documentary", dur: "5:50", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://vimeo.com/687825882" },
-  { title: "Untitled Doc 2",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/8YcDib-6VyM" },
-  { title: "Untitled Doc 3",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://vimeo.com/456369605" },
-  { title: "Light Up Katsina",        tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/ttGgLQLEVTc" },
-  { title: "Untitled Doc 5",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/tQyUo7tpHMs" },
-  { title: "Untitled Doc 6",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/wksh0o5TPG0" },
-  { title: "Untitled Doc 7",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/br1CsL2fAF4" },
-  { title: "Untitled Doc 8",          tag: "Documentary", dur: "",     bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/TwUiS7w6a5Y" },
+  { title: "Bloom Network",          tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://vimeo.com/687825882",   thumbnailUrl: "/thumbnails/Bloom Network 01.jpg" },
+  { title: "Founders Experience",    tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/8YcDib-6VyM" },
+  { title: "Shaldag Fisheries",      tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://vimeo.com/456369605",   thumbnailUrl: "/thumbnails/Shaldag Fisheries 03.jpg" },
+  { title: "Light Up Kastina",       tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/ttGgLQLEVTc" },
+  { title: "Nord Automobiles",       tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/tQyUo7tpHMs" },
+  { title: "The Sterling Experience",tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/wksh0o5TPG0" },
+  { title: "Light Is Energy",        tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/br1CsL2fAF4" },
+  { title: "Embrace Equity",         tag: "Documentary", dur: "", bg: "linear-gradient(150deg,#3a0b16 0%,#52101f 46%,#1f0609 100%)", videoUrl: "https://youtu.be/TwUiS7w6a5Y" },
 ];
 
 const FALLBACK_AD: Tile[] = [
-  { title: "Untitled Ad 1", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/r-EEjcj4Mo0" },
-  { title: "Untitled Ad 2", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/J1BiUgo6Z2g" },
-  { title: "Untitled Ad 3", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/wwSJoU1BsG0" },
-  { title: "New Era",       tag: "Commercial", dur: "0:22", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/8XFEpFjr4Tk" },
-  { title: "Untitled Ad 5", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/4GTlXI2JXvI" },
-  { title: "Untitled Ad 6", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/bQew7K2TjHs" },
-  { title: "Vibe Out",      tag: "Commercial", dur: "0:31", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/4XwVc0h2V4s" },
-  { title: "Untitled Ad 8", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://vimeo.com/689239033" },
+  { title: "ORAIMO | Guchi",             tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/r-EEjcj4Mo0" },
+  { title: "Velvet Nights | Funky Tiger", tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/J1BiUgo6Z2g" },
+  { title: "Pooler App | Woodcore",       tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/wwSJoU1BsG0" },
+  { title: "Hybrid Motors | New Era",     tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/8XFEpFjr4Tk" },
+  { title: "POOLER BaaS",                 tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/4GTlXI2JXvI" },
+  { title: "Feed Your Genius | 500Chow",  tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/bQew7K2TjHs" },
+  { title: "Vibe Out",                    tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://youtu.be/4XwVc0h2V4s" },
+  { title: "GINJAAAH | Coca-Cola",        tag: "Commercial", dur: "", bg: "linear-gradient(150deg,#46101d 0%,#5a1226 50%,#21070b 100%)", videoUrl: "https://vimeo.com/689239033", thumbnailUrl: "/thumbnails/Coca-Cola Ginja 08.jpg" },
 ];
 
 const FALLBACK_LIVE: Tile[] = [
-  { title: "Untitled Live 1",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/OuY8U83i9Eo" },
-  { title: "Untitled Live 2",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/FX_H4rpbqz0" },
-  { title: "Untitled Live 3",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/OOYXbuKRUjo" },
-  { title: "Untitled Live 4",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/IHClDRhUB0c" },
-  { title: "Untitled Live 5",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/qmhIAsWY6As" },
-  { title: "Untitled Live 6",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/_9em3L7rNLI" },
-  { title: "Untitled Live 7",  tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/TntCtWAiLNA" },
-  { title: "Art X Lagos Night", tag: "Live Event", dur: "1:02", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/m_qFswFxZfE" },
+  { title: "Art X Lagos | Fair",          tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/OuY8U83i9Eo", thumbnailUrl: "/thumbnails/Art X.jpg" },
+  { title: "OyaMakeWeGroove8",            tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/FX_H4rpbqz0" },
+  { title: "OMWG 7",                      tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/OOYXbuKRUjo" },
+  { title: "PITCH2WIN-5",                 tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/IHClDRhUB0c" },
+  { title: "INNOV8 FEST | Credit Direct", tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/qmhIAsWY6As", thumbnailUrl: "/thumbnails/Credit Direct 05.jpg" },
+  { title: "Scrum Day Nigeria 2026",      tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/_9em3L7rNLI" },
+  { title: "PBN PoolDown",               tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/TntCtWAiLNA" },
+  { title: "Africa's Tech Demo Day",     tag: "Live Event", dur: "", bg: "linear-gradient(150deg,#310a14 0%,#4d101e 52%,#170508 100%)", videoUrl: "https://youtu.be/m_qFswFxZfE" },
 ];
 
 const FALLBACK_CONTENT: Tile[] = [
-  { title: "Untitled Reel 1", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/689242851" },
-  { title: "Untitled Reel 2", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/384234664" },
+  { title: "Untitled Reel 1", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/689242851",                thumbnailUrl: "/thumbnails/Ginja 1.jpg" },
+  { title: "Untitled Reel 2", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/384234664",                thumbnailUrl: "/thumbnails/Nivea.jpg" },
   { title: "Untitled Reel 3", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://youtube.com/shorts/qVRrSplQWQM" },
   { title: "Untitled Reel 4", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://youtube.com/shorts/lrL45YPZ600" },
   { title: "Untitled Reel 5", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://youtube.com/shorts/9XNDit4iAJk" },
   { title: "Untitled Reel 6", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://youtube.com/shorts/vKf9kik9JeA" },
   { title: "Untitled Reel 7", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://youtube.com/shorts/XPW8WYdtlUc" },
-  { title: "Untitled Reel 8", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/689253404" },
+  { title: "Untitled Reel 8", tag: "Short / Reel", dur: "", bg: "", isContent: true, videoUrl: "https://vimeo.com/689253404",                thumbnailUrl: "/thumbnails/Ginja 2.jpg" },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -99,6 +99,26 @@ function apiToTile(p: any): Tile {
   };
 }
 
+// ─── Section header component ─────────────────────────────────────────────────
+
+function SectionHeader({ num, title }: { num: string; title: string }) {
+  return (
+    <div style={{
+      display: "flex", alignItems: "baseline", gap: 16,
+      padding: "0 clamp(18px,5vw,72px)",
+      marginBottom: "clamp(18px,2.5vw,32px)",
+    }}>
+      <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 400, fontSize: 11, letterSpacing: ".22em", color: "rgba(194,160,106,.7)", textTransform: "uppercase" as const }}>
+        {num}
+      </span>
+      <span style={{ width: 28, height: 1, background: "rgba(194,160,106,.35)", flexShrink: 0 }} />
+      <span style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 500, fontSize: "clamp(0.85rem,1.4vw,1.05rem)", letterSpacing: ".12em", textTransform: "uppercase" as const, color: "rgba(231,225,210,.75)" }}>
+        {title}
+      </span>
+    </div>
+  );
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -125,17 +145,21 @@ export default function HomePage() {
 
       <LogoStrip />
 
-      <div style={{ padding: "clamp(40px,5vw,70px) 0 0" }}>
-        <WorkRow tiles={docTiles} speed={0.3}
+      <div style={{ padding: "clamp(52px,6vw,88px) 0 0" }}>
+        <SectionHeader num="01" title="Documentary" />
+        <WorkRow tiles={docTiles} speed={0.3} showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow tiles={adTiles} speed={0.36} reverse
+        <SectionHeader num="02" title="Ad Campaigns & Commercials" />
+        <WorkRow tiles={adTiles} speed={0.36} reverse showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow tiles={liveTiles} speed={0.28}
+        <SectionHeader num="03" title="Live Events" />
+        <WorkRow tiles={liveTiles} speed={0.28} showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
 
-        <WorkRow tiles={reelTiles} speed={0.34} darkBg
+        <SectionHeader num="04" title="Content, Shorts & Reels" />
+        <WorkRow tiles={reelTiles} speed={0.34} darkBg showTitles
           onTileClick={t => setLightbox({ title: t.title, videoUrl: t.videoUrl })} />
       </div>
 
